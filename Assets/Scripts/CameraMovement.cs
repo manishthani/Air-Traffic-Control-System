@@ -8,10 +8,13 @@ public class CameraMovement : MonoBehaviour {
 	// Si es asi, como se haria para visualizarlo en 3D?
 	private GameObject camera2D;
 	private GameObject camera3D;
+
+
 	// Use this for initialization
 	void Start () {
 		camera2D = GameObject.FindWithTag ("2DCamera");
-		camera3D = this.transform.parent.Find ("3DCamera").gameObject;
+		Debug.Log( "ajdfsñ" + transform.parent.parent.name);
+		camera3D = transform.parent.parent.Find ("3DCamera").gameObject;
 	}
 
 	// Update is called once per frame
@@ -35,7 +38,6 @@ public class CameraMovement : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		Debug.Log ("lfdsjf");
 		camera3D.SetActive (true);
 		camera2D.SetActive (false);	
 	}

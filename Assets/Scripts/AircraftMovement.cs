@@ -13,45 +13,54 @@ public class AircraftMovement : MonoBehaviour {
 	private int index = 0;
 	private const float secondsPerHour = 3600.0f;
 
-	void OnTriggerEnter (Collider col) {
-		if (col.gameObject.tag == "Beacon") {
-			index++;
-			if (index < targets.Length) {
-				this.gameObject.transform.LookAt (targets [index].position);
-			}
-		} 
-		//Destroy (gameObject);
-		//Destroy (col.gameObject);
+		
+	public void incrementIndex() {
+		index = index + 1;
 	}
-	// Use this for initialization
+
+	public Transform getCurrentTarget () {
+		return targets [index];
+	}
+	public Transform getNextFutureTarget() {
+		return targets [index + 1];
+	}
+
+	public bool existNextFutureTarget() {
+		return index + 1 < targets.Length;
+	}
+
+	public bool existMoreTargets () {
+		return index < targets.Length;
+	}
+
 	void Start() {
 		//QualitySettings.vSyncCount = 0;
 		//Application.targetFrameRate = frameRate;
 	}
 
-	public void incrementIndex() {
-		index = index + 1;
-	}
 	// Update is called once per frame
 	void Update () {
-		//this.gameObject.transform.Translate (speed/2 * Time.deltaTime * Vector3.forward);
+
 		float step = knots / secondsPerHour * Time.deltaTime;
-		if (index < targets.Length) {
+		if (transform.position == targets [index].position && existNextFutureTarget()) {
+			index++;
+		}
+		if (existMoreTargets()) {
 			transform.position = Vector3.MoveTowards (transform.position, targets [index].position, step);
 
-			// Make cylinder always look at the target beacon
-			Vector3 relativePos = targets [index].position - transform.position;
-			transform.rotation = Quaternion.LookRotation (relativePos, Vector3.up);
-
-			if (transform.position == targets [index].position) {
-				this.gameObject.transform.Rotate( new Vector3( gameObject.transform.rotation.x,Vector3.Angle(futurePositions.position, targets[index].position), gameObject.transform.rotation.z));
-			}
 		}
 
-		/*if (this.transform.position.y < 1) 
-			this.transform.Translate (speed/2 * Time.deltaTime * Vector3.up);*/
-		
-		if (Input.GetKey (KeyCode.LeftArrow)) {
+		/*
+
+this.gameObject.transform.LookAt (targets [index].position);
+			// Make cylinder always look at the target beacon
+			Vector3 relativePos = targets [index].position - transform.position;
+			if (relativePos != Vector3.zero) {
+				transform.rotation = Quaternion.LookRotation (relativePos, Vector3.up);
+			}
+		*/
+
+		/*if (Input.GetKey (KeyCode.LeftArrow)) {
 			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.left);
 		} else if (Input.GetKey (KeyCode.RightArrow)) {
 			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.right);
@@ -59,15 +68,14 @@ public class AircraftMovement : MonoBehaviour {
 			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.up);
 		} else if (Input.GetKey (KeyCode.DownArrow)) {
 			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.down);
-		}
+		}*/
 
-
-
+		/*this.gameObject.transform.LookAt (targets [index].position);
+		// Make cylinder always look at the target beacon
+		Vector3 relativePos = targets [index].position - transform.position;
+		if (relativePos != Vector3.zero) {
+			transform.rotation = Quaternion.LookRotation (relativePos, Vector3.up);
+		}*/
 
 	}
-	/*void OnMouseDown (){
-		Debug.Log ("Clicked!");
-		myCamera.SetActive (true);
-		camera2D.SetActive (false);
-	}*/
 }
