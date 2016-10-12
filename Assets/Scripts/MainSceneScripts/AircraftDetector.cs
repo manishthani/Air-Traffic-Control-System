@@ -5,16 +5,10 @@ using UnityEngine.UI;
 public class AircraftDetector: MonoBehaviour {
 
 	private bool longArea = true;
-	private Text infoText;
-	private AudioSource sourceShortConflictAlarm;
 
 	private GameObject myAirplane; 
-	void Awake () {
-		sourceShortConflictAlarm = GetComponent<AudioSource> ();
-	}
 
 	void Start() {
-		infoText = GameObject.Find ("textInfo").GetComponent<Text> ();
 		myAirplane = transform.parent.parent.gameObject;
 	}
 
@@ -22,19 +16,21 @@ public class AircraftDetector: MonoBehaviour {
 		if (other.gameObject.tag == "Airplane" && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
 			if (this.gameObject.name == "ShortAreaDetector") {
 				longArea = false;
-				Debug.Log (other.gameObject.name);
 				other.gameObject.GetComponent<Renderer> ().material.color = Color.magenta;
 				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.magenta;
-				infoText.text += "Short Conflict with: " + other.gameObject.name + "\n";
-				sourceShortConflictAlarm.Play ();
-			
+
+				// Show collision in ScrollView 
+				UIController.UICtrl.addCollisionInfo("Short Conflict with: " + other.gameObject.name);
+
+				// Play alert sound
+				AudioController.AudioCtrl.PlayAudioSource ();
+							
 			}
 			else if (this.gameObject.name == "LongAreaDetector" && longArea) {
 				other.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
 				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
 
-				infoText.text += "Long Conflict with: " + other.gameObject.name + "\n";
-
+				UIController.UICtrl.addCollisionInfo("Long Conflict with: " + other.gameObject.name);
 			}
 		}
 	}
@@ -45,7 +41,9 @@ public class AircraftDetector: MonoBehaviour {
 				longArea = true;
 				other.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
 				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
-				sourceShortConflictAlarm.Stop ();
+
+				//Stop alert sound
+				AudioController.AudioCtrl.StopAudioSource ();
 
 			}
 			else if (this.gameObject.name == "LongAreaDetector") {

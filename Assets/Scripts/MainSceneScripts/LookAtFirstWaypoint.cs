@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LookAtFirstTarget : MonoBehaviour {
+public class LookAtFirstWaypoint : MonoBehaviour {
 
 	public GameObject myAirplane;
 	private AircraftMovement scriptAircraftMovement;

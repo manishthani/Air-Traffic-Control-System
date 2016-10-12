@@ -33,6 +33,11 @@ public class AircraftMovement : MonoBehaviour {
 		return index < targets.Length;
 	}
 
+
+	void OnTriggerEnter(Collider col) {
+		Debug.Log ("Collided with " + col.gameObject.name);
+	}
+
 	void Start() {
 		//QualitySettings.vSyncCount = 0;
 		//Application.targetFrameRate = frameRate;

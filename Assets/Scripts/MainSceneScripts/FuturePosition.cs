@@ -11,31 +11,41 @@ public class FuturePosition : MonoBehaviour {
 	private Transform nextTarget;
 	private AircraftMovement aircraftMovementScript;
 
-	// Use this for initialization
-
 
 	void OnTriggerEnter(Collider other) {
+		
+		// TODO: Fix log messages according to future position
 		if (other.gameObject.name == this.gameObject.name) {
+			UIController.UICtrl.showWarningPanel ();
 			// Collision
 			switch (other.gameObject.name) {
-			case "Position1":
+			case "1":
 				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 12.5 seconds" );
 				break;
 
-			case "Position2":
+			case "2":
 				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 25 seconds" );
 				break;
 
-			case "Position3":
+			case "3":
 				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 37.5 seconds" );
 				break;
 
-			case "Position4":
+			case "4":
+				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 50 seconds" );
+				break;
+			case "5":
 				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 50 seconds" );
 				break;
 
 			}
 		}
+	}
+
+	void Awake (){
+		float distance = DataController.dataCtrl.currentDistance;
+		float positionNumber =  float.Parse(gameObject.name);
+		transform.Translate(new Vector3(0.0f, 0.0f, distance * positionNumber));
 	}
 
 	void Start () {
@@ -44,11 +54,8 @@ public class FuturePosition : MonoBehaviour {
 		knots = aircraftMovementScript.knots;
 		nextTarget = aircraftMovementScript.getCurrentTarget ();
 		speed = knots / secondsPerHour;
-
-
 	}
-
-	// Update is called once per frame
+		
 	void Update () {
 		transform.position = Vector3.MoveTowards (transform.position, nextTarget.position, speed * Time.deltaTime);
 		// Make cylinder always look at the target beacon
