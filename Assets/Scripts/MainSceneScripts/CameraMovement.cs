@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class CameraMovement : MonoBehaviour {
 
@@ -22,7 +23,10 @@ public class CameraMovement : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		camera3D.SetActive (true);
-		camera2D.SetActive (false);	
+		// To avoid clicks pass through GUI controls
+		if (!EventSystem.current.IsPointerOverGameObject ()){
+			camera3D.SetActive (true);
+			camera2D.SetActive (false);	
+		}
 	}
 }

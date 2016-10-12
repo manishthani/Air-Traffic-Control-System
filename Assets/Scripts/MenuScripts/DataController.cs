@@ -7,11 +7,17 @@ public class DataController : MonoBehaviour {
 	public float currentDistance = 1.0f;
 
 	void Awake() {
-		DontDestroyOnLoad(transform.gameObject);
+		DontDestroyOnLoad(this);
+		if (FindObjectsOfType(GetType()).Length > 1)
+		{
+			Destroy(gameObject);
+		}
+
 	}
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log ("Init of data Controller");
 		if (dataCtrl == null) {
 			dataCtrl = new DataController ();
 		}
