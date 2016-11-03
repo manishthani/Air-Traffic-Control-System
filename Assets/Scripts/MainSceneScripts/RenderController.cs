@@ -19,7 +19,7 @@ public class RenderController : MonoBehaviour {
 
 	}
 
-	private ArrayList allAirplanes;
+	public ArrayList allAirplanes;
 	// Use this for initialization
 
 	public void instantiateAllAirplanes () {
