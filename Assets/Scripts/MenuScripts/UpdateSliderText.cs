@@ -7,7 +7,6 @@ public class UpdateSliderText : MonoBehaviour {
 	public Text textField;
 
 	void Start() {
-		Debug.Log ("START Slider Text!!");
 		gameObject.GetComponent<Slider> ().value = DataController.dataCtrl.currentDistance;
 	}
 

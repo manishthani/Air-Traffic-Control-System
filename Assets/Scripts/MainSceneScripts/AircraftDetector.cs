@@ -23,7 +23,7 @@ public class AircraftDetector: MonoBehaviour {
 				UIController.UICtrl.addCollisionInfo("Short Conflict with: " + other.gameObject.name);
 
 				// Play alert sound
-				AudioController.AudioCtrl.PlayAudioSource ();
+				AudioController.audioCtrl.PlayAudioSource ();
 							
 			}
 			else if (this.gameObject.name == "LongAreaDetector" && longArea) {
@@ -43,7 +43,7 @@ public class AircraftDetector: MonoBehaviour {
 				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
 
 				//Stop alert sound
-				AudioController.AudioCtrl.StopAudioSource ();
+				AudioController.audioCtrl.StopAudioSource ();
 
 			}
 			else if (this.gameObject.name == "LongAreaDetector") {

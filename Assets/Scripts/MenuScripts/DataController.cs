@@ -17,7 +17,6 @@ public class DataController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("Init of data Controller");
 		if (dataCtrl == null) {
 			dataCtrl = new DataController ();
 		}

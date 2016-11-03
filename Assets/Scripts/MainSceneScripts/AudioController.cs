@@ -2,14 +2,14 @@
 using System.Collections;
 
 public class AudioController : MonoBehaviour {
-	public static AudioController AudioCtrl;
+	public static AudioController audioCtrl;
 
 	private AudioSource sourceShortConflictAlarm;
 
 	// Use this for initialization
 	void Start () {
-		if (AudioCtrl == null) {
-			AudioCtrl = GameObject.FindGameObjectWithTag ("AudioCtrl").GetComponent<AudioController> ();
+		if (audioCtrl == null) {
+			audioCtrl = GameObject.FindGameObjectWithTag ("AudioCtrl").GetComponent<AudioController> ();
 		}
 		sourceShortConflictAlarm = GetComponent<AudioSource> ();
 

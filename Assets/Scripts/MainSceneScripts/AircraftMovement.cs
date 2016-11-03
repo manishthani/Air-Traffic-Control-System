@@ -10,7 +10,8 @@ public class AircraftMovement : MonoBehaviour {
 	public Transform futurePositions; 
 
 
-	private int index = 0;
+	// Begins at 1 since 0 is the initial position of aircraft
+	private int index = 1;
 	private const float secondsPerHour = 3600.0f;
 
 		
@@ -32,11 +33,7 @@ public class AircraftMovement : MonoBehaviour {
 	public bool existMoreTargets () {
 		return index < targets.Length;
 	}
-
-
-	void OnTriggerEnter(Collider col) {
-		Debug.Log ("Collided with " + col.gameObject.name);
-	}
+		
 
 	void Start() {
 		//QualitySettings.vSyncCount = 0;
