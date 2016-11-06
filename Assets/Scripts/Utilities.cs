@@ -12,10 +12,6 @@ public class Utilities {
 				vectorString += ";";
 			}
 		}
-		/*foreach (Vector3 position in vector) {
-			vectorString += position.x + "," + position.y + "," + position.z;
-			vectorString += ";";
-		}*/
 		return vectorString;
 	}
 

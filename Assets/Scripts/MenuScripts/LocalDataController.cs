@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LocalDataController : MonoBehaviour {
+public class LocalDataController {
 	public static LocalDataController localDataCtrl; 
 	private LocalData localData;
 
@@ -14,8 +14,8 @@ public class LocalDataController : MonoBehaviour {
 		return localData.Load ();
 	}
 		
-	public void Insert (int id, string name , string initPosition/*, ArrayList waypoints*/) {
-		AirplaneData data = new AirplaneData (id, name , initPosition/*, waypoints*/);
+	public void Insert (int id, string name , string waypoints) {
+		AirplaneData data = new AirplaneData (id, name , waypoints);
 		localData.Insert (data);
 	}
 

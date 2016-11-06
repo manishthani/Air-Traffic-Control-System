@@ -7,10 +7,14 @@ public class GUIAirplanePanel : MonoBehaviour {
 	private float offset = 30.0f;
 	private int rankIndex = 1;
 	private int i = 0;
-	void Start() {
-		//ArrayList airplanes = RenderController.renderCtrl.allAirplanes;
-		//foreach (AirplaneData data in airplanes) {
-		ArrayList arrayWaypoints = new ArrayList();
+	 void Start() {
+		LocalDataController.localDataCtrl = new LocalDataController ();
+		ArrayList airplanes = LocalDataController.localDataCtrl.Load();
+		foreach (AirplaneData data in airplanes) {
+			populateAirplanePanel (data.id.ToString(), data.name, data.waypoints);
+		}
+		//Test Data
+		/*ArrayList arrayWaypoints = new ArrayList();
 
 		arrayWaypoints.Add ( new Vector3(40.89946f, 6.0f, 34.5229f) ); 
 		arrayWaypoints.Add ( new Vector3(-6.619187f, 6.0f, 55.04213f) ); 
@@ -81,11 +85,11 @@ public class GUIAirplanePanel : MonoBehaviour {
 
 		waypoints = Utilities.parseToString(arrayWaypoints);
 
-		populateAirplanePanel ("4", "Airbus 303", waypoints);
-		//}
+		populateAirplanePanel ("4", "Airbus 303", waypoints);*/
+
 	}
 
-	public void populateAirplanePanel (string id, string modelName, string waypoints) {
+	private void populateAirplanePanel (string id, string modelName, string waypoints) {
 		GameObject instance = Instantiate (GUIUserLine) as GameObject;
 		instance.transform.SetParent (transform, false);
 

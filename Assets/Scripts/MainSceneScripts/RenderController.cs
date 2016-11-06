@@ -4,6 +4,7 @@ using System.Collections;
 
 public class RenderController : MonoBehaviour {
 	public static RenderController renderCtrl = null;
+	public ArrayList allAirplanes;
 
 	void Awake () {
 		RenderController.renderCtrl = new RenderController ();
@@ -11,15 +12,12 @@ public class RenderController : MonoBehaviour {
 		instantiateAllAirplanes ();
 		//insertDefaultAirplanes();
 	}
-
-
+		
 	void insertDefaultAirplanes () {
 		LocalDataController.localDataCtrl.Test ();
-
-
 	}
 
-	public ArrayList allAirplanes;
+
 	// Use this for initialization
 
 	public void instantiateAllAirplanes () {
