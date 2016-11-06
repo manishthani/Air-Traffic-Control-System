@@ -7,11 +7,25 @@ public class GUIAirplanePanel : MonoBehaviour {
 	private float offset = 30.0f;
 	private int rankIndex = 1;
 	private int i = 0;
+
+
+	private int index = 0;
+
 	 void Start() {
 		LocalDataController.localDataCtrl = new LocalDataController ();
 		ArrayList airplanes = LocalDataController.localDataCtrl.Load();
+
+		PopulateTables populateAirplanes = new PopulateTables ();
 		foreach (AirplaneData data in airplanes) {
-			populateAirplanePanel (data.id.ToString(), data.name, data.waypoints);
+			if (data.id > index) {
+				index = data.id;
+			}
+			ArrayList rowData = new ArrayList ();
+			rowData.Add (data.id.ToString ());
+			rowData.Add (data.name);
+			rowData.Add (data.waypoints);
+
+			populateAirplanes.addRowToTable(gameObject, GUIUserLine, rowData);
 		}
 		//Test Data
 		/*ArrayList arrayWaypoints = new ArrayList();
@@ -86,25 +100,6 @@ public class GUIAirplanePanel : MonoBehaviour {
 		waypoints = Utilities.parseToString(arrayWaypoints);
 
 		populateAirplanePanel ("4", "Airbus 303", waypoints);*/
-
-	}
-
-	private void populateAirplanePanel (string id, string modelName, string waypoints) {
-		GameObject instance = Instantiate (GUIUserLine) as GameObject;
-		instance.transform.SetParent (transform, false);
-
-		instance.transform.Translate (new Vector3 (0, -offset, 0.0f));
-
-		Text[] texts = instance.GetComponentsInChildren<Text> ();
-
-		// Populate the new instance with given username and score
-		texts[0].text = id;
-		texts[1].text = modelName;
-		texts[2].text = waypoints;
-
-		offset += 30.0f;
-		++rankIndex;
-		++i;
 
 	}
 }

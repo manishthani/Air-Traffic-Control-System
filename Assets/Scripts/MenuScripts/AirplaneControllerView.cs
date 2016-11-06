@@ -9,9 +9,9 @@ public class AirplaneControllerView : MonoBehaviour {
 	// UI Elements related to Add airplane
 	public GameObject inputModelName;
 
-	public GameObject textInputXWaypoints;
-	public GameObject textInputYWaypoints;
-	public GameObject textInputZWaypoints;
+	public GameObject inputXWaypoints;
+	public GameObject inputYWaypoints;
+	public GameObject inputZWaypoints;
 
 	public GameObject tableWaypoints;
 	public GameObject waypointRowView; 
@@ -19,25 +19,41 @@ public class AirplaneControllerView : MonoBehaviour {
 	// UI Scripts 
 	private PopulateTables populateCoordinates; 
 
+	// Data
+	private string coordinates;
+	private string modelName;
+
 	void Start() {
+		LocalDataController.localDataCtrl = new LocalDataController ();
 		populateCoordinates = new PopulateTables();
 	}
 
-	public void addAirplaneEvent() {
+	public void addAirplaneWaypointsEvent() {
 		// Read data from inputs
-		string modelName = inputModelName.GetComponent<Text>().text;
+		modelName = inputModelName.GetComponent<InputField>().text;
 
-		string waypointXCoord = textInputXWaypoints.GetComponent<Text> ().text;
-		string waypointYCoord = textInputYWaypoints.GetComponent<Text> ().text;
-		string waypointZCoord = textInputZWaypoints.GetComponent<Text> ().text;
+		string waypointXCoord = inputXWaypoints.GetComponent<InputField> ().text;
+		string waypointYCoord = inputYWaypoints.GetComponent<InputField> ().text;
+		string waypointZCoord = inputZWaypoints.GetComponent<InputField> ().text;
+
+		//Clear Inputs
+		inputXWaypoints.GetComponent<InputField> ().text = string.Empty;
+		inputYWaypoints.GetComponent<InputField> ().text = string.Empty;
+		inputZWaypoints.GetComponent<InputField> ().text = string.Empty;
+
+		// Populate List
 		ArrayList rowData = new ArrayList ();
 		rowData.Add (waypointXCoord);
 		rowData.Add (waypointYCoord);
 		rowData.Add (waypointZCoord);
 
-		// Populate List
 		populateCoordinates.addRowToTable (tableWaypoints, waypointRowView, rowData);
-		//
 
+		coordinates += waypointXCoord + "," + waypointYCoord + "," + waypointZCoord + ";";
+	}
+
+	public void addAirplaneEvent() {
+		int id = 49;
+		LocalDataController.localDataCtrl.Insert (id, modelName, coordinates);
 	}
 }

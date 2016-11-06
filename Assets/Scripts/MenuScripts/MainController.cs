@@ -29,6 +29,7 @@ public class MainController : MonoBehaviour {
 
 	public void showEditVisualizationPanel() {
 		mainPanel.SetActive (false);
+		addAirplanePanel.SetActive (false);
 		editVisualizationPanel.SetActive (true);
 	}
 
