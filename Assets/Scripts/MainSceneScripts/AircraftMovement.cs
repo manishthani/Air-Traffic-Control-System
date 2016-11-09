@@ -6,9 +6,7 @@ public class AircraftMovement : MonoBehaviour {
 	//public int frameRate = 2;
 	public float knots = 600.0f;
 
-	public Transform[] targets;
-	public Transform futurePositions; 
-
+	private ArrayList targets;
 
 	// Begins at 1 since 0 is the initial position of aircraft
 	private int index = 1;
@@ -20,36 +18,44 @@ public class AircraftMovement : MonoBehaviour {
 	}
 
 	public Transform getCurrentTarget () {
-		return targets [index];
+		return (Transform) targets [index];
 	}
 	public Transform getNextFutureTarget() {
-		return targets [index + 1];
+		return (Transform) targets [index + 1];
 	}
 
 	public bool existNextFutureTarget() {
-		return index + 1 < targets.Length;
+		return index + 1 < targets.Count;
 	}
 
 	public bool existMoreTargets () {
-		return index < targets.Length;
+		return index < targets.Count;
 	}
 		
 
 	void Start() {
 		//QualitySettings.vSyncCount = 0;
 		//Application.targetFrameRate = frameRate;
+		targets = new ArrayList();
+		// Add Initial position
+		targets.Add (transform.position);
+		Transform waypoints = transform.parent.FindChild ("Waypoints").transform;
+
+		for (int i = 0; i < waypoints.childCount; ++i) {
+			targets.Add (waypoints.GetChild (i));
+		}
+		Debug.Log ("START");
 	}
 
 	// Update is called once per frame
 	void Update () {
 
 		float step = knots / secondsPerHour * Time.deltaTime;
-		if (transform.position == targets [index].position && existNextFutureTarget()) {
+		if (transform.position == ((Transform) targets [index]).position && existNextFutureTarget()) {
 			index++;
 		}
 		if (existMoreTargets()) {
-			transform.position = Vector3.MoveTowards (transform.position, targets [index].position, step);
-
+			transform.position = Vector3.MoveTowards (transform.position, ((Transform)targets [index]).position, step);
 		}
 
 		/*

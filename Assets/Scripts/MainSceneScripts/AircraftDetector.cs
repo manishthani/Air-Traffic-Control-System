@@ -8,7 +8,7 @@ public class AircraftDetector: MonoBehaviour {
 
 	private GameObject myAirplane; 
 
-	void Start() {
+	void Awake() {
 		myAirplane = transform.parent.parent.gameObject;
 	}
 

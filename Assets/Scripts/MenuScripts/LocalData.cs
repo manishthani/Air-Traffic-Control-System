@@ -40,31 +40,49 @@ public class LocalData {
 	}
 
 
-	public void Insert (AirplaneData airplaneData) {
+	public int Insert (AirplaneData airplaneData) {
 		ArrayList allData = Load();
-		bool airplaneExist = false;
+		bool airplaneExist = (airplaneData.id != -1);
+		if (airplaneExist) {
+			foreach (AirplaneData p in allData) {
+				if (p.id == airplaneData.id ) {
+					airplaneExist = true; 
+
+					p.id = airplaneData.id;
+					p.name = airplaneData.name;
+					p.waypoints = airplaneData.waypoints;
+
+					break;
+				}
+			}
+			SaveAll (allData, FileMode.OpenOrCreate);
+		} else {
+			int maxId = 0;
+			foreach (AirplaneData p in allData) {
+				if (p.id > maxId) {
+					maxId = p.id;
+				}
+			}
+			airplaneData.id = maxId + 1;
+			Save (airplaneData);
+		}
+		return airplaneData.id;
+	}
+
+	public void deleteAirplaneWithId (int id) {
+		ArrayList allData = Load ();
 		foreach (AirplaneData p in allData) {
-			if (p.id == airplaneData.id ) {
-				airplaneExist = true; 
-
-				p.id = airplaneData.id;
-				p.name = airplaneData.name;
-				p.waypoints = airplaneData.waypoints;
-
+			if (p.id == id ) {
+				allData.Remove (p);
 				break;
 			}
 		}
-		if (airplaneExist) {
-			SaveAll (allData);
-		} else {
-			Save (airplaneData);
-		}
-		
+		SaveAll (allData, FileMode.Truncate);
 	}
 
-	public void SaveAll(ArrayList allData) {
+	public void SaveAll(ArrayList allData, FileMode mode) {
 		
-		FileStream file = File.Open (Application.persistentDataPath + PATH, FileMode.OpenOrCreate);
+		FileStream file = File.Open (Application.persistentDataPath + PATH, mode);
 		// Guardamos todo de nuevo
 		BinaryFormatter bf = new BinaryFormatter ();
 		foreach (AirplaneData data in allData) {

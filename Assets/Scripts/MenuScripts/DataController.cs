@@ -5,6 +5,7 @@ using System.Collections;
 public class DataController : MonoBehaviour {
 	public static DataController dataCtrl = null;
 	public float currentDistance = 1.0f;
+	public ArrayList airplanes;
 
 	void Awake() {
 		DontDestroyOnLoad(this);

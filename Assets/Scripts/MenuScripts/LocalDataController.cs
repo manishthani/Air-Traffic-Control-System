@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LocalDataController {
-	public static LocalDataController localDataCtrl; 
+public class LocalDataController : MonoBehaviour{
 	private LocalData localData;
 
 
@@ -14,9 +13,19 @@ public class LocalDataController {
 		return localData.Load ();
 	}
 		
-	public void Insert (int id, string name , string waypoints) {
-		AirplaneData data = new AirplaneData (id, name , waypoints);
+	// TODO: Write Update method
+	public void insert (string name , string waypoints) {
+		AirplaneData data = new AirplaneData (-1, name , waypoints);
 		localData.Insert (data);
+	}
+
+	public void update (int id, string name, string waypoints) {
+		AirplaneData data = new AirplaneData (id, name, waypoints);
+		localData.Insert (data);
+	}
+
+	public void delete(int id) {
+		localData.deleteAirplaneWithId (id);
 	}
 
 	public void Test () {
@@ -39,7 +48,7 @@ public class LocalDataController {
 		arrayWaypoints.Add ( new Vector3(250.0f, 0.0f, 250.0f) ); 
 
 		string waypoints = Utilities.parseToString(arrayWaypoints);
-		Insert (1, "Boeing 39231", waypoints);
+//		Insert (1, "Boeing 39231", waypoints);
 
 
 		arrayWaypoints = new ArrayList();
@@ -53,7 +62,7 @@ public class LocalDataController {
 
 		waypoints = Utilities.parseToString(arrayWaypoints);
 
-		Insert (2, "Boeing 39231", waypoints);
+		//Insert (2, "Boeing 39231", waypoints);
 
 		//READ
 		/*ArrayList array = Load();

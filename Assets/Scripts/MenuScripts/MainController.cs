@@ -3,16 +3,22 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class MainController : MonoBehaviour {
+	public static MainController mainCtrl = null;
+
 	private GameObject mainPanel;
 	private GameObject settingsPanel;
-	private GameObject editVisualizationPanel;
+	private GameObject showAirplanesPanel;
 	private GameObject addAirplanePanel;
+
 	// Use this for initialization
 	void Start () {
+		if (mainCtrl == null) {
+			mainCtrl = new MainController ();
+		}
 		mainPanel = transform.Find ("MainPanel").gameObject;
 		settingsPanel = transform.Find ("SettingsPanel").gameObject;
-		editVisualizationPanel = transform.Find ("EditVisualizationPanel").gameObject;
-		addAirplanePanel = transform.Find ("AddAirplanePanel").gameObject;
+		showAirplanesPanel = transform.Find("AirplanePanels").Find ("ShowAirplanesPanel").gameObject;
+		addAirplanePanel = transform.Find("AirplanePanels").Find ("AddAirplanePanel").gameObject;
 	}
 	
 	public void showSettingsPanel() {
@@ -23,18 +29,18 @@ public class MainController : MonoBehaviour {
 	public void showMainPanel() {
 		mainPanel.SetActive (true);
 		settingsPanel.SetActive (false);
-		editVisualizationPanel.SetActive (false);
+		showAirplanesPanel.SetActive (false);
 		addAirplanePanel.SetActive (false);
 	}
 
-	public void showEditVisualizationPanel() {
+	public void ShowAirplanesPanel() {
 		mainPanel.SetActive (false);
 		addAirplanePanel.SetActive (false);
-		editVisualizationPanel.SetActive (true);
+		showAirplanesPanel.SetActive (true);
 	}
 
 	public void showAddAirplanePanel() {
-		editVisualizationPanel.SetActive (false);
+		showAirplanesPanel.SetActive (false);
 		addAirplanePanel.SetActive (true);
 	}
 }

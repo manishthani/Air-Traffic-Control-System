@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class FuturePosition : MonoBehaviour {
-	public GameObject aircraft;
 
 	private float knots;
 	private float secondsPerHour = 3600.0f;
@@ -52,7 +51,8 @@ public class FuturePosition : MonoBehaviour {
 
 	void Start () {
 		// Script
-		aircraftMovementScript = aircraft.GetComponent<AircraftMovement> ();
+		GameObject myAirplane = transform.parent.parent.FindChild("MyAirplane").gameObject;
+		aircraftMovementScript = myAirplane.GetComponent<AircraftMovement> ();
 		knots = aircraftMovementScript.knots;
 		nextTarget = aircraftMovementScript.getCurrentTarget ();
 		speed = knots / secondsPerHour;

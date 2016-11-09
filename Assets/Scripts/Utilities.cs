@@ -19,10 +19,13 @@ public class Utilities {
 		ArrayList array = new ArrayList ();
 
 		string[] positions = vector.Split(';');
+
 		for (int i = 0; i < positions.Length;  ++i) {
-			string[] position = positions[i].Split (',');
-			Vector3 positionVector = new Vector3 (float.Parse (position [0]), float.Parse (position [1]), float.Parse (position [2]));
-			array.Add (positionVector);
+			if (positions[i] != string.Empty) {
+				string[] position = positions [i].Split (',');
+				Vector3 positionVector = new Vector3 (float.Parse (position [0]), float.Parse (position [1]), float.Parse (position [2]));
+				array.Add (positionVector);
+			}
 		}
 
 		return array;

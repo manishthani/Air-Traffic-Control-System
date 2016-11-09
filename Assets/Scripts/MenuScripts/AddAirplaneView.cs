@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 using System.Collections;
 
-public class AirplaneControllerView : MonoBehaviour {
+public class AddAirplaneView : MonoBehaviour {
 
 
 	// UI Elements related to Add airplane
@@ -24,7 +24,6 @@ public class AirplaneControllerView : MonoBehaviour {
 	private string modelName;
 
 	void Start() {
-		LocalDataController.localDataCtrl = new LocalDataController ();
 		populateCoordinates = new PopulateTables();
 	}
 
@@ -53,7 +52,6 @@ public class AirplaneControllerView : MonoBehaviour {
 	}
 
 	public void addAirplaneEvent() {
-		int id = 49;
-		LocalDataController.localDataCtrl.Insert (id, modelName, coordinates);
+		AirplaneViewController.airplaneViewCtrl.insertAirplanes (modelName, coordinates);
 	}
 }
