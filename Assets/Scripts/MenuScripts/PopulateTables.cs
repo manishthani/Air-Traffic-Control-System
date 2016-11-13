@@ -28,7 +28,13 @@ public class PopulateTables: MonoBehaviour {
 		offset += 30.0f;
 	}
 
-	public void removeRows() {
+	public void removeRows(GameObject table) {
+		for (int i = 0; i < table.transform.childCount; ++i) {
+			// Only removes instances, not prefab
+			if (table.transform.GetChild(i).name.Contains ("(Clone)")) {
+				Destroy (table.transform.GetChild (i).gameObject);
+			}
+		}
 		rows.Clear ();
 	} 
 }

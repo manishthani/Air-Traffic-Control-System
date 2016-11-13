@@ -8,7 +8,7 @@ public class MainController : MonoBehaviour {
 	private GameObject mainPanel;
 	private GameObject settingsPanel;
 	private GameObject showAirplanesPanel;
-	private GameObject addAirplanePanel;
+	private GameObject insertAirplanePanel;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +18,7 @@ public class MainController : MonoBehaviour {
 		mainPanel = transform.Find ("MainPanel").gameObject;
 		settingsPanel = transform.Find ("SettingsPanel").gameObject;
 		showAirplanesPanel = transform.Find("AirplanePanels").Find ("ShowAirplanesPanel").gameObject;
-		addAirplanePanel = transform.Find("AirplanePanels").Find ("AddAirplanePanel").gameObject;
+		insertAirplanePanel = transform.Find("AirplanePanels").Find ("InsertAirplanePanel").gameObject;
 	}
 	
 	public void showSettingsPanel() {
@@ -30,17 +30,17 @@ public class MainController : MonoBehaviour {
 		mainPanel.SetActive (true);
 		settingsPanel.SetActive (false);
 		showAirplanesPanel.SetActive (false);
-		addAirplanePanel.SetActive (false);
+		insertAirplanePanel.SetActive (false);
 	}
 
 	public void ShowAirplanesPanel() {
 		mainPanel.SetActive (false);
-		addAirplanePanel.SetActive (false);
+		insertAirplanePanel.SetActive (false);
 		showAirplanesPanel.SetActive (true);
 	}
 
-	public void showAddAirplanePanel() {
+	public void showInsertAirplanePanel() {
 		showAirplanesPanel.SetActive (false);
-		addAirplanePanel.SetActive (true);
+		insertAirplanePanel.SetActive (true);
 	}
 }

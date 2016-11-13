@@ -12,15 +12,6 @@ public class ShowAirplanesView : MonoBehaviour {
 	// UI Scripts 
 	private PopulateTables populateCoordinates; 
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
 	public void removeAirplanes () {
 		for (int i = 0; i < tableAirplanes.transform.childCount; ++i) {
