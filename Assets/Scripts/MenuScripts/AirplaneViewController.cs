@@ -14,21 +14,21 @@ public class AirplaneViewController : MonoBehaviour {
 	void Start () {
 		airplaneViewCtrl = new AirplaneViewController ();
 		AirplaneController.airplaneCtrl = new AirplaneController ();
-		refreshAirplanesTable ();
+		showAirplanesPanel.GetComponent<ShowAirplanesView> ().refreshAirplanesTable ();
 	}
 	
-	public void insertAirplanes(string modelName, string waypoints) {
-		AirplaneController.airplaneCtrl.insertAirplane (modelName, waypoints);
+	public void insertAirplanes(int id, string modelName, string waypoints) {
+		if (id == -1 ) {
+			Debug.Log ("Adding!");
+			AirplaneController.airplaneCtrl.insertAirplane (modelName, waypoints);
+		} else {
+			Debug.Log ("Updating!");
+			AirplaneController.airplaneCtrl.updateAirplane (id, modelName, waypoints);
+		}
 	}
 
-	public void deleteAirplane() {
-		Transform button = EventSystem.current.currentSelectedGameObject.transform;
-		Transform parent = button.parent;
-		int id = int.Parse(parent.Find ("Id").GetComponent<Text> ().text);
-		AirplaneController.airplaneCtrl.deleteAirplaneWithId (id);
-		Destroy (parent.gameObject);
-
-		refreshAirplanesTable ();
+	public void updateAirplane(int id, string modelName, string waypoints) {
+		AirplaneController.airplaneCtrl.updateAirplane (id, modelName, waypoints);
 	}
 
 	public void fillAirplaneData() {
@@ -50,12 +50,11 @@ public class AirplaneViewController : MonoBehaviour {
 		insertAirplanePanel.GetComponent<InsertAirplaneView> ().clearAllFields();
 	}
 
-	public void refreshAirplanesTable () {
+	public ArrayList getAirplanes () {
+		// TODO: dataCtrl can be updated with other function calls, do that
 		// Communicates with the showAirplanesView and invokes a function to refresh the table by inserting the new airplane details
 		ArrayList airplanes = AirplaneController.airplaneCtrl.getAirplanes();
 		DataController.dataCtrl.airplanes = airplanes;
-		showAirplanesPanel.GetComponent<ShowAirplanesView> ().removeAirplanes ();
-		showAirplanesPanel.GetComponent<ShowAirplanesView> ().populateAirplanes(airplanes);
-		
+		return airplanes;
 	}
 }

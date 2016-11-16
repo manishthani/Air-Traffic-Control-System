@@ -20,6 +20,7 @@ public class InsertAirplaneView : MonoBehaviour {
 	private PopulateTables populateCoordinates; 
 
 	// Data
+	private int id = -1;
 	private string coordinates;
 	private string modelName;
 
@@ -28,8 +29,6 @@ public class InsertAirplaneView : MonoBehaviour {
 	}
 
 	public void addAirplaneWaypointsEvent() {
-		// Read data from inputs
-		modelName = inputModelName.GetComponent<InputField>().text;
 
 		string waypointX = inputXWaypoints.GetComponent<InputField> ().text;
 		string waypointY = inputYWaypoints.GetComponent<InputField> ().text;
@@ -44,8 +43,11 @@ public class InsertAirplaneView : MonoBehaviour {
 		addWaypointsWithCoordinates (waypointX, waypointY, waypointZ);
 	}
 
-	public void addAirplaneEvent() {
-		AirplaneViewController.airplaneViewCtrl.insertAirplanes (modelName, coordinates);
+	public void insertAirplaneEvent() {
+		// Read modelName from inputs
+		modelName = inputModelName.GetComponent<InputField>().text;
+		AirplaneViewController.airplaneViewCtrl.insertAirplanes (id, modelName, coordinates);
+		clearAllFields ();
 	}
 
 
@@ -70,9 +72,10 @@ public class InsertAirplaneView : MonoBehaviour {
 	}
 
 
-	private void populateAllFields (int id, string modelName, string waypoints) {
+	private void populateAllFields (int airplaneId, string modelName, string waypoints) {
 
 		// Fill Inputs
+		id = airplaneId;
 		// Model name
 		inputModelName.GetComponent<InputField>().text = modelName;
 
@@ -85,6 +88,7 @@ public class InsertAirplaneView : MonoBehaviour {
 
 	public void clearAllFields () {
 		//Clear Inputs
+		id = -1;
 		// Model name
 		inputModelName.GetComponent<InputField>().text = string.Empty;
 
@@ -95,5 +99,6 @@ public class InsertAirplaneView : MonoBehaviour {
 
 		// Clear Waypoints List
 		populateCoordinates.removeRows(tableWaypoints);
+		coordinates = string.Empty;
 	}
 }

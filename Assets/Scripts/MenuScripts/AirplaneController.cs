@@ -35,5 +35,6 @@ public class AirplaneController {
 
 	public void deleteAirplaneWithId (int id) {
 		localDataCtrl.delete (id);
+		airplanes = localDataCtrl.Load ();
 	}
 }

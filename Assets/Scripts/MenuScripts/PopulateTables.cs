@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PopulateTables: MonoBehaviour {
-	private float offset = 30.0f;
+	private float offset = 40.0f;
 	private ArrayList rows;
 
 	public PopulateTables() {
@@ -12,9 +12,10 @@ public class PopulateTables: MonoBehaviour {
 
 	public void addRowToTable (GameObject table, GameObject rowView, ArrayList rowData) {
 		GameObject instance = Instantiate (rowView) as GameObject;
+		instance.transform.Translate (new Vector3 (0.0f, -offset, 0.0f));
 		instance.transform.SetParent (table.transform, false);
 
-		instance.transform.Translate (new Vector3 (0.0f, -offset, 0.0f));
+
 
 		rows.Add (instance);
 
@@ -25,7 +26,8 @@ public class PopulateTables: MonoBehaviour {
 		texts[1].text = rowData[1].ToString();
 		texts[2].text = rowData[2].ToString();
 
-		offset += 30.0f;
+		// Get height of rowView
+		offset += ((rowView.GetComponent<RectTransform> ().rect.yMax - rowView.GetComponent<RectTransform> ().rect.yMin)* rowView.transform.localScale.y);
 	}
 
 	public void removeRows(GameObject table) {
@@ -36,5 +38,6 @@ public class PopulateTables: MonoBehaviour {
 			}
 		}
 		rows.Clear ();
+		offset = 40.0f;
 	} 
 }
