@@ -42,9 +42,9 @@ public class FuturePosition : MonoBehaviour {
 
 	void Awake (){
 		float distance = 0.0f;
-		if (DataController.dataCtrl != null) {
-			 distance = DataController.dataCtrl.currentDistance;
-		}
+		distance = GameObject.Find ("Data").GetComponent<DataController> ().getCurrentDistance();
+		print (distance);
+
 		float positionNumber = float.Parse (gameObject.name);
 		transform.Translate (new Vector3 (0.0f, 0.0f, distance * positionNumber));
 	}

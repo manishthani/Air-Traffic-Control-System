@@ -9,16 +9,14 @@ public class ShowAirplanesView : MonoBehaviour {
 	// UI elements
 	// Table elements
 	public GameObject tableAirplanes;
+	// TODO: Make assignment of airplaneLine and then set it to Is visible = false;
 	public GameObject airplaneRowView; 
 
 	// Delete rows elements
 	public GameObject deletePanel;
 
-	// TODO: Populate Table and refresh table functions needed
-
 	// UI Scripts 
 	private PopulateTables populationAirplanes; 
-
 	//Trajectories panel
 	public GameObject trajectories;
 

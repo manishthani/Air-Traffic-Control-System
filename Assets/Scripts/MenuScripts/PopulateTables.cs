@@ -3,19 +3,19 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class PopulateTables: MonoBehaviour {
-	private float offset = 40.0f;
+	private float offset = 0.0f;
 	private ArrayList rows;
+
 
 	public PopulateTables() {
 		rows = new ArrayList ();
 	}
 
-	public void addRowToTable (GameObject table, GameObject rowView, ArrayList rowData) {
+	public GameObject addRowToTable (GameObject table, GameObject rowView, ArrayList rowData) {
 		GameObject instance = Instantiate (rowView) as GameObject;
+		instance.SetActive (true);
 		instance.transform.Translate (new Vector3 (0.0f, -offset, 0.0f));
 		instance.transform.SetParent (table.transform, false);
-
-
 
 		rows.Add (instance);
 
@@ -28,6 +28,10 @@ public class PopulateTables: MonoBehaviour {
 
 		// Get height of rowView
 		offset += ((rowView.GetComponent<RectTransform> ().rect.yMax - rowView.GetComponent<RectTransform> ().rect.yMin)* rowView.transform.localScale.y);
+		// Table content UI
+		RectTransform rect = table.GetComponent<RectTransform>();
+		rect.offsetMin = new Vector2 (rect.offsetMin.x, rect.offsetMin.y - offset);
+		return instance;
 	}
 
 	public void removeRows(GameObject table) {
@@ -38,6 +42,7 @@ public class PopulateTables: MonoBehaviour {
 			}
 		}
 		rows.Clear ();
-		offset = 40.0f;
+		offset = 0.0f;
+		//rowIDs = 0;
 	} 
 }
