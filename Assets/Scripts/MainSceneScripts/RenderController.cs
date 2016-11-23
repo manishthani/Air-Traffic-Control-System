@@ -4,16 +4,19 @@ using System.Collections;
 
 public class RenderController : MonoBehaviour {
 	public static RenderController renderCtrl = null;
+
 	public ArrayList allATC;
 
-	public ArrayList waypoints;
+	public GameObject[] testAirplanes;
+	public bool testEnabled = true;
 
 	void Start () {
 		RenderController.renderCtrl = new RenderController ();
-		waypoints = new ArrayList ();
-		//LocalDataController.localDataCtrl = new LocalDataController ();
-		instantiateAllAirplanes ();
-		attachScripts ();
+
+		if (!testEnabled) {
+			instantiateAllAirplanes ();
+			attachScripts ();
+		}
 	}
 
 	// Use this for initialization
@@ -23,13 +26,7 @@ public class RenderController : MonoBehaviour {
 		// Obtaining airplanes from data controller
 		ArrayList airplanes = DataController.dataCtrl.airplanes;
 		allATC = new ArrayList();
-		/*
-		ArrayList arrayWaypoints = new ArrayList();
 
-		arrayWaypoints.Add ( new Vector3(40.89946f, 6.0f, 34.5229f) ); 
-		arrayWaypoints.Add ( new Vector3(-6.619187f, 6.0f, 55.04213f) ); 
-			
-		AirplaneData airplaneData = new AirplaneData (1,"HOLAAA", Utilities.parseToString(arrayWaypoints) );*/
 		GameObject atcPrefab = Resources.Load ("ATC-System") as GameObject;
 		GameObject waypointPrefab = Resources.Load ("Waypoint") as GameObject;
 
@@ -52,8 +49,6 @@ public class RenderController : MonoBehaviour {
 			for (int i = 1; i < waypointsData.Count; ++i) {
 				GameObject waypoint =  Instantiate (waypointPrefab, (Vector3) waypointsData [i], parentWaypoint.transform.rotation) as GameObject;
 				waypoint.transform.SetParent (parentWaypoint.transform);
-
-				waypoints.Add (waypoint);
 			}
 
 			// Save Instance to collection of airplanes

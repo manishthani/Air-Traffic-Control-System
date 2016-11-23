@@ -16,8 +16,8 @@ public class AircraftDetector: MonoBehaviour {
 		if (other.gameObject.tag == "Airplane" && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
 			if (this.gameObject.name == "ShortAreaDetector") {
 				longArea = false;
-				other.gameObject.GetComponent<Renderer> ().material.color = Color.magenta;
-				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.magenta;
+				other.gameObject.GetComponent<Renderer> ().material.color = Color.red;
+				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.red;
 
 				// Show collision in ScrollView 
 				UIController.UICtrl.addCollisionInfo("Short Conflict with: " + other.gameObject.name);
@@ -27,8 +27,8 @@ public class AircraftDetector: MonoBehaviour {
 							
 			}
 			else if (this.gameObject.name == "LongAreaDetector" && longArea) {
-				other.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
-				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
+				other.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
+				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
 
 				UIController.UICtrl.addCollisionInfo("Long Conflict with: " + other.gameObject.name);
 			}
@@ -39,16 +39,16 @@ public class AircraftDetector: MonoBehaviour {
 		if (other.gameObject.tag == "Airplane" && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
 			if (this.gameObject.name == "ShortAreaDetector") {
 				longArea = true;
-				other.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
-				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
+				other.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
+				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
 
 				//Stop alert sound
 				AudioController.audioCtrl.StopAudioSource ();
 
 			}
 			else if (this.gameObject.name == "LongAreaDetector") {
-				other.gameObject.GetComponent<Renderer> ().material.color = Color.white;
-				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.white;
+				other.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
+				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
 
 			}
 		}

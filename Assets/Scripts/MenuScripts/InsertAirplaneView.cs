@@ -42,10 +42,11 @@ public class InsertAirplaneView : MonoBehaviour {
 	}
 
 	public void addAirplaneWaypointsEvent() {
+		float waypointX = float.Parse(inputXWaypoints.GetComponent<InputField> ().text);
+		float waypointY = float.Parse(inputYWaypoints.GetComponent<InputField> ().text);
+		float waypointZ = float.Parse(inputZWaypoints.GetComponent<InputField> ().text);
 
-		string waypointX = inputXWaypoints.GetComponent<InputField> ().text;
-		string waypointY = inputYWaypoints.GetComponent<InputField> ().text;
-		string waypointZ = inputZWaypoints.GetComponent<InputField> ().text;
+		Debug.Log (waypointX.ToString() + " , " + waypointY.ToString() + " , " + waypointZ.ToString() );
 
 		//Clear Inputs
 		inputXWaypoints.GetComponent<InputField> ().text = string.Empty;
@@ -53,7 +54,7 @@ public class InsertAirplaneView : MonoBehaviour {
 		inputZWaypoints.GetComponent<InputField> ().text = string.Empty;
 
 		// Add waypoint
-		addWaypointsWithCoordinates (waypointX, waypointY, waypointZ);
+		addWaypointsWithCoordinates (waypointX.ToString(), waypointY.ToString(), waypointZ.ToString());
 	}
 
 	public void insertAirplaneEvent() {

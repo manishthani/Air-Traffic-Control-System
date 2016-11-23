@@ -36,7 +36,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 			// Normalize waypoints to range 0 - 500.0f, then divide into 2 
 			ArrayList waypointsArray = Utilities.parseToVector3 (waypoints);
 			for (int i = 0; i < waypointsArray.Count; i++) {
-				waypointsArray [i] = new Vector3 (((Vector3)waypointsArray [i]).x * (width / 500.0f) , ((Vector3)waypointsArray [i]).y * (height / 500.0f), 1.0f);
+				waypointsArray [i] = new Vector3 (((Vector3)waypointsArray [i]).x * (width / 500.0f) ,((Vector3)waypointsArray [i]).z * (height / 500.0f),  1.0f );
 			}
 
 			//Draw airplane icon

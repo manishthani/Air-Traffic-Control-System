@@ -10,4 +10,8 @@ public class LoadScenes : MonoBehaviour {
 	public void loadMenuScene() {
 		SceneManager.LoadScene ("Menu");
 	}
+
+	public void loadResultScene() {
+		SceneManager.LoadScene ("Results");
+	}
 }

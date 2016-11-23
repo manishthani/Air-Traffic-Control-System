@@ -33,7 +33,7 @@ public class AircraftMovement : MonoBehaviour {
 	}
 		
 
-	void Start() {
+	void Awake() {
 		//QualitySettings.vSyncCount = 0;
 		//Application.targetFrameRate = frameRate;
 		targets = new ArrayList();
@@ -54,36 +54,12 @@ public class AircraftMovement : MonoBehaviour {
 		if (transform.position == ((Transform) targets [index]).position && existNextFutureTarget()) {
 			index++;
 		}
-		if (existMoreTargets()) {
+
+		if (existMoreTargets ()) {
 			transform.position = Vector3.MoveTowards (transform.position, ((Transform)targets [index]).position, step);
+		} else {
+			// TODO: Load Scene of Results!
 		}
-
-		/*
-
-this.gameObject.transform.LookAt (targets [index].position);
-			// Make cylinder always look at the target beacon
-			Vector3 relativePos = targets [index].position - transform.position;
-			if (relativePos != Vector3.zero) {
-				transform.rotation = Quaternion.LookRotation (relativePos, Vector3.up);
-			}
-		*/
-
-		/*if (Input.GetKey (KeyCode.LeftArrow)) {
-			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.left);
-		} else if (Input.GetKey (KeyCode.RightArrow)) {
-			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.right);
-		} else if (Input.GetKey (KeyCode.UpArrow)) {
-			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.up);
-		} else if (Input.GetKey (KeyCode.DownArrow)) {
-			this.gameObject.transform.Translate (knots/secondsPerHour * Time.deltaTime * Vector3.down);
-		}*/
-
-		/*this.gameObject.transform.LookAt (targets [index].position);
-		// Make cylinder always look at the target beacon
-		Vector3 relativePos = targets [index].position - transform.position;
-		if (relativePos != Vector3.zero) {
-			transform.rotation = Quaternion.LookRotation (relativePos, Vector3.up);
-		}*/
 
 	}
 }

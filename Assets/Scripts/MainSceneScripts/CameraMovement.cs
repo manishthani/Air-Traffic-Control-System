@@ -20,21 +20,6 @@ public class CameraMovement : MonoBehaviour {
 			camera3D.SetActive (false);
 			camera2D.SetActive (true);
 		}
-
-		if (camera2D.activeSelf ) {
-			if (Input.GetKey (KeyCode.LeftArrow)) {
-				camera2D.transform.Translate (Vector3.left);
-			} 
-			else if (Input.GetKey (KeyCode.RightArrow)) {
-				camera2D.transform.Translate (Vector3.right);
-			}
-			else if (Input.GetKey (KeyCode.UpArrow)) {
-				camera2D.transform.Translate (Vector3.up);
-			}
-			else if (Input.GetKey (KeyCode.DownArrow)) {
-				camera2D.transform.Translate (Vector3.down);
-			}
-		}
 	}
 
 	void OnMouseDown() {
