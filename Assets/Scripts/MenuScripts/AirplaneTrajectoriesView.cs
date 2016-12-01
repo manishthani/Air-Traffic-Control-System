@@ -16,6 +16,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 		height = transform.GetComponent<RectTransform> ().rect.height;
 		width = transform.GetComponent<RectTransform> ().rect.width;
 
+		refresh ();
 	}
 
 	// Update is called once per frame
@@ -36,13 +37,15 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 			// Normalize waypoints to range 0 - 500.0f, then divide into 2 
 			ArrayList waypointsArray = Utilities.parseToVector3 (waypoints);
 			for (int i = 0; i < waypointsArray.Count; i++) {
-				waypointsArray [i] = new Vector3 (((Vector3)waypointsArray [i]).x * (width / 500.0f) ,((Vector3)waypointsArray [i]).z * (height / 500.0f),  1.0f );
+				waypointsArray [i] = new Vector3 (((Vector3)waypointsArray [i]).x * (width / 500.0f) ,((Vector3)waypointsArray [i]).y * (height / 500.0f),  1.0f );
 			}
 
 			//Draw airplane icon
 			GameObject instanceTrajectory = Instantiate (airplaneTrajectory, new Vector3 (0.0f, 0.0f, 0.0f), transform.rotation) as GameObject;
 			instanceTrajectory.name = id.ToString ();
 			instanceTrajectory.transform.SetParent (transform);
+
+			// TODO: Make this look cleaner!
 			RectTransform rect = instanceTrajectory.GetComponent<RectTransform> ();
 			rect.offsetMax = airplaneTrajectoryRect.offsetMax;
 			rect.offsetMin = airplaneTrajectoryRect.offsetMin;
@@ -88,5 +91,14 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 		//Destroy (trajectory.GetComponent<UILineRenderer>() );
 	}
 
+	public void refresh () {
+		clean ();
+
+		// Draw airplanes again
+		ArrayList airplanes = AirplaneController.airplaneCtrl.getAirplanes ();
+		foreach (AirplaneData airplane in airplanes) {
+			drawAirplane (airplane.id, airplane.waypoints);
+		}
+	}
 
 }

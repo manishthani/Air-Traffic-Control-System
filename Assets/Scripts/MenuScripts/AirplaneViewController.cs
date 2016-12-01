@@ -15,6 +15,7 @@ public class AirplaneViewController : MonoBehaviour {
 		airplaneViewCtrl = new AirplaneViewController ();
 		AirplaneController.airplaneCtrl = new AirplaneController ();
 		showAirplanesPanel.GetComponent<ShowAirplanesView> ().refreshAirplanesTable ();
+		showAirplanesPanel.GetComponent<ShowAirplanesView> ();
 	}
 	
 	public void insertAirplanes(int id, string modelName, string waypoints) {

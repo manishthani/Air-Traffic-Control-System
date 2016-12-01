@@ -12,6 +12,18 @@ public class AircraftDetector: MonoBehaviour {
 		myAirplane = transform.parent.parent.gameObject;
 	}
 
+	void Start() {
+
+		myAirplane.GetComponent<AircraftMovement> ().knots = DataController.dataCtrl.airplaneSpeed;
+
+		SphereCollider collider = gameObject.GetComponent<SphereCollider> ();
+		if (gameObject.name == "LongAreaDetector") {
+			collider.radius = DataController.dataCtrl.longAreaDetectorRadius;
+		} else if (gameObject.name == "ShortAreaDetector") {
+			collider.radius = DataController.dataCtrl.shortAreaDetectorRadius;
+		}
+	}
+
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.tag == "Airplane" && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
 			if (this.gameObject.name == "ShortAreaDetector") {
@@ -19,18 +31,15 @@ public class AircraftDetector: MonoBehaviour {
 				other.gameObject.GetComponent<Renderer> ().material.color = Color.red;
 				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.red;
 
-				// Show collision in ScrollView 
-				UIController.UICtrl.addCollisionInfo("Short Conflict with: " + other.gameObject.name);
-
 				// Play alert sound
 				AudioController.audioCtrl.PlayAudioSource ();
 							
 			}
 			else if (this.gameObject.name == "LongAreaDetector" && longArea) {
-				other.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
-				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
+				other.gameObject.GetComponent<Renderer> ().material.color = new Color (1, 0.60f, 0, 1);
+				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = new Color (1, 0.60f, 0, 1);
 
-				UIController.UICtrl.addCollisionInfo("Long Conflict with: " + other.gameObject.name);
+				UIController.UICtrl.addCollisionInfo("Long Conflict with: " + other.transform.Find("Canvas").Find("textAirplaneModel").GetComponent<Text>().text);
 			}
 		}
 	}
@@ -39,16 +48,18 @@ public class AircraftDetector: MonoBehaviour {
 		if (other.gameObject.tag == "Airplane" && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
 			if (this.gameObject.name == "ShortAreaDetector") {
 				longArea = true;
-				other.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
-				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.yellow;
+				other.gameObject.GetComponent<Renderer> ().material.color = new Color (1, 0.60f, 0, 1);
+				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = new Color (1, 0.60f, 0, 1);
 
 				//Stop alert sound
 				AudioController.audioCtrl.StopAudioSource ();
+				UIController.UICtrl.hideWarningPanel ();
+
 
 			}
 			else if (this.gameObject.name == "LongAreaDetector") {
-				other.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
-				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.blue;
+				other.gameObject.GetComponent<Renderer> ().material.color = Color.green;
+				transform.parent.parent.gameObject.GetComponent<Renderer> ().material.color = Color.green;
 
 			}
 		}

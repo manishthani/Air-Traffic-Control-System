@@ -8,15 +8,15 @@ public class RenderController : MonoBehaviour {
 	public ArrayList allATC;
 
 	public GameObject[] testAirplanes;
-	public bool testEnabled = true;
+	public bool testEnabled = false;
 
 	void Start () {
 		RenderController.renderCtrl = new RenderController ();
 
-		if (!testEnabled) {
+		//if (!testEnabled) {
 			instantiateAllAirplanes ();
 			attachScripts ();
-		}
+		//}
 	}
 
 	// Use this for initialization
@@ -50,6 +50,9 @@ public class RenderController : MonoBehaviour {
 				GameObject waypoint =  Instantiate (waypointPrefab, (Vector3) waypointsData [i], parentWaypoint.transform.rotation) as GameObject;
 				waypoint.transform.SetParent (parentWaypoint.transform);
 			}
+
+
+
 
 			// Save Instance to collection of airplanes
 			allATC.Add (atc);

@@ -18,22 +18,22 @@ public class FuturePosition : MonoBehaviour {
 			// Collision
 			switch (other.gameObject.name) {
 			case "1":
-				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 12.5 seconds" );
+				UIController.UICtrl.addWarningPanelInfo( transform.parent.parent.gameObject.name + " AND " + other.transform.parent.parent.gameObject.name + " will collide in 12.5 seconds" );
 				break;
 
 			case "2":
-				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 25 seconds" );
+				UIController.UICtrl.addWarningPanelInfo( transform.parent.parent.gameObject.name + " AND " + other.transform.parent.parent.gameObject.name + " will collide in 25 seconds" );
 				break;
 
 			case "3":
-				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 37.5 seconds" );
+				UIController.UICtrl.addWarningPanelInfo( transform.parent.parent.gameObject.name + " AND " + other.transform.parent.parent.gameObject.name + " will collide in 37.5 seconds" );
 				break;
 
 			case "4":
-				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 50 seconds" );
+				UIController.UICtrl.addWarningPanelInfo( transform.parent.parent.gameObject.name + " AND " + other.transform.parent.parent.gameObject.name + " will collide in 50 seconds" );
 				break;
 			case "5":
-				Debug.Log (this.gameObject.name + " AND " + other.gameObject.name + " will collide in 50 seconds" );
+				UIController.UICtrl.addWarningPanelInfo( transform.parent.parent.gameObject.name + " AND " + other.transform.parent.parent.gameObject.name + " will collide in 62.5 seconds" );
 				break;
 
 			}
@@ -41,16 +41,14 @@ public class FuturePosition : MonoBehaviour {
 	}
 
 	void Awake (){
-		float distance = 1.0f;
-		if ( DataController.dataCtrl != null) {
-			distance = DataController.dataCtrl.currentDistance;
-		}
-
-		float positionNumber = float.Parse (gameObject.name);
-		transform.Translate (new Vector3 (0.0f, 0.0f, distance * positionNumber));
 	}
 
 	void Start () {
+		float distance = DataController.dataCtrl.currentDistance;
+
+
+		float positionNumber = float.Parse (gameObject.name);
+		transform.Translate (new Vector3 (0.0f, 0.0f, distance * positionNumber));
 		// Script
 		GameObject myAirplane = transform.parent.parent.FindChild("MyAirplane").gameObject;
 		aircraftMovementScript = myAirplane.GetComponent<AircraftMovement> ();

@@ -8,11 +8,16 @@ public class AircraftMovement : MonoBehaviour {
 
 	private ArrayList targets;
 
+	private bool destinationArrived = false;
+
 	// Begins at 1 since 0 is the initial position of aircraft
 	private int index = 1;
 	private const float secondsPerHour = 3600.0f;
 
-		
+	public bool hasArrivedInDestination() {
+		return destinationArrived;
+	}
+
 	public void incrementIndex() {
 		index = index + 1;
 	}
@@ -57,9 +62,10 @@ public class AircraftMovement : MonoBehaviour {
 
 		if (existMoreTargets ()) {
 			transform.position = Vector3.MoveTowards (transform.position, ((Transform)targets [index]).position, step);
-		} else {
-			// TODO: Load Scene of Results!
-		}
-
+			if (((Transform)targets [index]).position == transform.position && !existNextFutureTarget ()) {
+				Debug.Log("Airplane Trajectory Completed");
+				destinationArrived = true;
+			}
+		} 
 	}
 }
