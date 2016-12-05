@@ -12,6 +12,7 @@ public class LoadScenes : MonoBehaviour {
 	}
 
 	public void loadResultScene() {
+		VisualizationDataController.vdCtrl.setTotalTime();
 		SceneManager.LoadScene ("Results");
 	}
 }

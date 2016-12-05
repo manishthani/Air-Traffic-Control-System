@@ -25,7 +25,8 @@ public class LoadResultsScene : MonoBehaviour {
 		}
 
 		if (allAirplanesArrived) {
-			SceneManager.LoadScene ("Results");
+			LoadScenes loadScenes = new LoadScenes ();
+			loadScenes.loadResultScene ();
 		}
 	}
 }

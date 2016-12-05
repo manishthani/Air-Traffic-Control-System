@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 
 public class RenderController : MonoBehaviour {
@@ -7,16 +8,12 @@ public class RenderController : MonoBehaviour {
 
 	public ArrayList allATC;
 
-	public GameObject[] testAirplanes;
-	public bool testEnabled = false;
-
 	void Start () {
 		RenderController.renderCtrl = new RenderController ();
+		VisualizationDataController.vdCtrl.setStartTime();
 
-		//if (!testEnabled) {
-			instantiateAllAirplanes ();
-			attachScripts ();
-		//}
+		instantiateAllAirplanes ();
+		attachScripts ();
 	}
 
 	// Use this for initialization
@@ -36,7 +33,9 @@ public class RenderController : MonoBehaviour {
 			ArrayList waypointsData = Utilities.parseToVector3(airplaneData.waypoints);
 
 			// Instantiate airplane (waypoints[0] is the initial airplane position) 
-			GameObject atc = Instantiate (atcPrefab, (Vector3)waypointsData[0], atcPrefab.transform.rotation) as GameObject;
+			Vector3 airplanePos = (Vector3) waypointsData[0];
+			GameObject atc = Instantiate (atcPrefab, new Vector3(airplanePos.x, airplanePos.z, airplanePos.y), atcPrefab.transform.rotation) as GameObject;
+
 			Transform airplane = atc.transform.FindChild ("MyAirplane");
 
 			// Set id and model name
@@ -47,17 +46,14 @@ public class RenderController : MonoBehaviour {
 			Transform parentWaypoint = atc.transform.FindChild("Waypoints");
 
 			for (int i = 1; i < waypointsData.Count; ++i) {
-				GameObject waypoint =  Instantiate (waypointPrefab, (Vector3) waypointsData [i], parentWaypoint.transform.rotation) as GameObject;
+				Vector3 waypointsPos = (Vector3) waypointsData[i];
+				GameObject waypoint =  Instantiate (waypointPrefab,  new Vector3(waypointsPos.x, waypointsPos.z, waypointsPos.y), parentWaypoint.transform.rotation) as GameObject;
 				waypoint.transform.SetParent (parentWaypoint.transform);
 			}
-
-
-
-
+				
 			// Save Instance to collection of airplanes
 			allATC.Add (atc);
 		}
-
 	}
 
 	public void attachScripts () {
@@ -71,7 +67,8 @@ public class RenderController : MonoBehaviour {
 
 			futurePositionParent.AddComponent<LookAtFirstWaypoint> ();
 			for (int i = 0; i < futurePositionParent.transform.childCount; ++i) {
-				futurePositionParent.transform.GetChild (i).gameObject.AddComponent<FuturePosition> ();
+				GameObject futurePosition = futurePositionParent.transform.GetChild (i).gameObject;
+				futurePosition.AddComponent<FuturePosition> ();
 			}
 
 			// Radar scripts (AircraftDetector)

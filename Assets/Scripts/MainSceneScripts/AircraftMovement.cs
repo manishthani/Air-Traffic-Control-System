@@ -1,25 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AircraftMovement : MonoBehaviour {
+//QualitySettings.vSyncCount = 0;
+//Application.targetFrameRate = frameRate;
 
-	//public int frameRate = 2;
+public class AircraftMovement : MonoBehaviour {
 	public float knots = 600.0f;
 
-	private ArrayList targets;
+	private GameObject camera3D;
 
+	private ArrayList targets;
 	private bool destinationArrived = false;
 
 	// Begins at 1 since 0 is the initial position of aircraft
 	private int index = 1;
 	private const float secondsPerHour = 3600.0f;
 
+
 	public bool hasArrivedInDestination() {
 		return destinationArrived;
-	}
-
-	public void incrementIndex() {
-		index = index + 1;
 	}
 
 	public Transform getCurrentTarget () {
@@ -39,32 +38,39 @@ public class AircraftMovement : MonoBehaviour {
 		
 
 	void Awake() {
-		//QualitySettings.vSyncCount = 0;
-		//Application.targetFrameRate = frameRate;
 		targets = new ArrayList();
 		// Add Initial position
 		targets.Add (transform.position);
-		Transform waypoints = transform.parent.FindChild ("Waypoints").transform;
-
+		Transform waypoints = transform.parent.FindChild ("Waypoints");
 		for (int i = 0; i < waypoints.childCount; ++i) {
 			targets.Add (waypoints.GetChild (i));
 		}
-		Debug.Log ("START");
+		// Cambiar esto
+		camera3D = transform.Find("Radar").Find("LongAreaDetector").gameObject;
+
 	}
 
-	// Update is called once per frame
-	void Update () {
 
-		float step = knots / secondsPerHour * Time.deltaTime;
+		
+	void Update () {
+		
 		if (transform.position == ((Transform) targets [index]).position && existNextFutureTarget()) {
 			index++;
 		}
 
+		transform.LookAt(getCurrentTarget ().position);
+
+		if (existMoreTargets () && camera3D.activeSelf) {
+			camera3D.GetComponent<CameraMovement> ().manageCamera3DControlsOfNextWaypoint (getCurrentTarget());
+		}
+			
 		if (existMoreTargets ()) {
+			float step = knots / secondsPerHour * Time.deltaTime;
 			transform.position = Vector3.MoveTowards (transform.position, ((Transform)targets [index]).position, step);
 			if (((Transform)targets [index]).position == transform.position && !existNextFutureTarget ()) {
 				Debug.Log("Airplane Trajectory Completed");
 				destinationArrived = true;
+
 			}
 		} 
 	}

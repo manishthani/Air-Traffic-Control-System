@@ -4,11 +4,7 @@ using UnityEngine.UI;
 public class UIAirplaneDetails : MonoBehaviour {
 
 	public GameObject airplane;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		foreach (Transform t in this.gameObject.transform){

@@ -33,7 +33,7 @@ public class AircraftDetector: MonoBehaviour {
 
 				// Play alert sound
 				AudioController.audioCtrl.PlayAudioSource ();
-							
+
 			}
 			else if (this.gameObject.name == "LongAreaDetector" && longArea) {
 				other.gameObject.GetComponent<Renderer> ().material.color = new Color (1, 0.60f, 0, 1);
@@ -41,6 +41,8 @@ public class AircraftDetector: MonoBehaviour {
 
 				UIController.UICtrl.addCollisionInfo("Long Conflict with: " + other.transform.Find("Canvas").Find("textAirplaneModel").GetComponent<Text>().text);
 			}
+			// Update Visualization Data Controlller
+			VisualizationDataController.vdCtrl.totalConflicts++;
 		}
 	}
 		

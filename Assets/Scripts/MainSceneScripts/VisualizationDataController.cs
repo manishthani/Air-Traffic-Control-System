@@ -1,16 +1,31 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class  VisualizationDataController : MonoBehaviour {
 
 	public static VisualizationDataController vdCtrl = null;
 
-	public float visualizationTime;
-	public int totalConflicts;
-	public int totalCollisions;
-	public int totalAirplanesArrived;
-	public int totalAirplanesEnRoute;
+	private DateTime startTime;
+	private TimeSpan totalTime; 
 
+	public int totalConflicts = 0;
+	public int totalCollisions = 0;
+	public int totalAirplanesArrived = 0;
+	public int totalAirplanesEnRoute = 0;
+
+
+	public void setStartTime() {
+		startTime = DateTime.Now;
+	}
+
+	public TimeSpan getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime () {
+		totalTime = DateTime.Now.Subtract(startTime);
+	}
 
 	void Awake() {
 		DontDestroyOnLoad(this);
@@ -25,6 +40,13 @@ public class  VisualizationDataController : MonoBehaviour {
 	void Start () {
 		if (vdCtrl == null) {
 			vdCtrl = new VisualizationDataController ();
+		}
+
+
+	}
+	void Update() {
+		if (RenderController.renderCtrl.allATC != null) {
+			totalAirplanesArrived = RenderController.renderCtrl.allATC.Count;
 		}
 	}
 }
