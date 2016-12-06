@@ -7,7 +7,7 @@ public class UIController : MonoBehaviour{
 
 	private Text collisionScrollViewText;
 	private GameObject warningPanel;
-	private GameObject editVisualizationPanel;
+	private GameObject speedSlider;
 	// Use this for initialization
 	void Start () {
 		if (UICtrl == null) {
@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour{
 
 			
 		warningPanel = transform.FindChild ("WarningPanel").gameObject;
+		speedSlider = transform.FindChild ("SpeedSlider").gameObject;
 		hideWarningPanel ();
 
 	}
@@ -37,5 +38,9 @@ public class UIController : MonoBehaviour{
 		
 	public void addWarningPanelInfo(string description) {
 		warningPanel.transform.FindChild ("TextDescription").GetComponent<Text> ().text = description;
+	}
+
+	public float getSpeedSliderValue() {
+		return speedSlider.GetComponent<Slider> ().value;
 	}
 }

@@ -22,7 +22,6 @@ public class LookAtFirstWaypoint : MonoBehaviour {
 
 		transform.position = airplane.position;
 
-
 		for (int i = 0; i < transform.childCount; ++i) {
 			transform.GetChild (i).position = (Vector3) childrenTranformCopy [i];
 		}

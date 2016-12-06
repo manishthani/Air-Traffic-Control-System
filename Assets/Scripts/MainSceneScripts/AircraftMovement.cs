@@ -5,6 +5,9 @@ using System.Collections;
 //Application.targetFrameRate = frameRate;
 
 public class AircraftMovement : MonoBehaviour {
+
+	public float currentSpeed = 600.0f;
+
 	public float knots = 600.0f;
 
 	private GameObject camera3D;
@@ -53,7 +56,8 @@ public class AircraftMovement : MonoBehaviour {
 
 		
 	void Update () {
-		
+		float acceleration = UIController.UICtrl.getSpeedSliderValue ();
+		currentSpeed = (knots / secondsPerHour * Time.deltaTime) * acceleration;
 		if (transform.position == ((Transform) targets [index]).position && existNextFutureTarget()) {
 			index++;
 		}
@@ -65,8 +69,8 @@ public class AircraftMovement : MonoBehaviour {
 		}
 			
 		if (existMoreTargets ()) {
-			float step = knots / secondsPerHour * Time.deltaTime;
-			transform.position = Vector3.MoveTowards (transform.position, ((Transform)targets [index]).position, step);
+
+			transform.position = Vector3.MoveTowards (transform.position, ((Transform)targets [index]).position, currentSpeed);
 			if (((Transform)targets [index]).position == transform.position && !existNextFutureTarget ()) {
 				Debug.Log("Airplane Trajectory Completed");
 				destinationArrived = true;

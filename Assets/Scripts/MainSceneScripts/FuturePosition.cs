@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 public class FuturePosition : MonoBehaviour {
 
-	private float knots;
-	private float secondsPerHour = 3600.0f;
-	private float speed;
 	private Transform nextTarget;
 	private AircraftMovement aircraftMovementScript;
 
@@ -48,15 +45,14 @@ public class FuturePosition : MonoBehaviour {
 		// Script
 		GameObject myAirplane = transform.parent.parent.FindChild("MyAirplane").gameObject;
 		aircraftMovementScript = myAirplane.GetComponent<AircraftMovement> ();
+		nextTarget = aircraftMovementScript.getCurrentTarget ();
 	}
 
 	void Update () {
 
-		knots = aircraftMovementScript.knots;
-		nextTarget = aircraftMovementScript.getCurrentTarget ();
-		speed = knots / secondsPerHour;
+		float speed = aircraftMovementScript.currentSpeed;
 
-		transform.position = Vector3.MoveTowards (transform.position, nextTarget.position, speed * Time.deltaTime);
+		transform.position = Vector3.MoveTowards (transform.position, nextTarget.position, speed);
 		// Make cylinder always look at the target beacon
 		if (transform.position == nextTarget.position) {
 			if (aircraftMovementScript.existNextFutureTarget()) {
