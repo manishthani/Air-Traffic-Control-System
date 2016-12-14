@@ -7,7 +7,6 @@ public class CameraMovement : MonoBehaviour {
 	private GameObject camera2D;
 	private GameObject camera3D;
 
-
 	// Use this for initialization
 	void Start () {
 		camera2D = GameObject.FindWithTag ("2DCamera");
@@ -32,7 +31,6 @@ public class CameraMovement : MonoBehaviour {
 		}
 		if (Input.GetKey (KeyCode.LeftArrow)) {
 			waypoint.Translate (Vector3.left,Space.Self);
-
 		}
 		if (Input.GetKey (KeyCode.RightArrow)) {
 			waypoint.Translate (Vector3.right,Space.Self);

@@ -35,7 +35,7 @@ public class ShowAirplanesView : MonoBehaviour {
 		AirplaneTrajectoriesView atvScript = trajectories.GetComponent<AirplaneTrajectoriesView> ();
 		atvScript.clean ();
 
-		foreach (AirplaneData data in airplanesData) {
+		foreach (AirplaneModel data in airplanesData) {
 			ArrayList rowData = new ArrayList ();
 			rowData.Add (data.id.ToString());
 			rowData.Add (data.name);

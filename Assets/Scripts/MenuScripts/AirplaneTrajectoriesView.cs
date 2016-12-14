@@ -21,8 +21,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 
 	// Update is called once per frame
 
-	// TODO: FIX THE COORDINATES OF AIRPLANES AND ITS WAYPOINTS(NOT NORMALIZED ACCORDING TO THE IMAGE WIDTH AND HEIGHT) !!
-	// (0,0) is the left lower corner and (500,500) is the right higher corner
+	// TODO: (0,0) is the left lower corner and (500,500) is the right higher corner
 	public void drawAirplane(int id, string waypoints) {
 		if (airplaneTrajectory == null) {
 			airplaneTrajectory = Resources.Load ("AirplaneTrajectory") as GameObject;
@@ -41,7 +40,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 			}
 
 			//Draw airplane icon
-			GameObject instanceTrajectory = Instantiate (airplaneTrajectory, new Vector3 (0.0f, 0.0f, 0.0f), transform.rotation) as GameObject;
+			GameObject instanceTrajectory = Instantiate (airplaneTrajectory, Vector3.zero, transform.rotation) as GameObject;
 			instanceTrajectory.name = id.ToString ();
 			instanceTrajectory.transform.SetParent (transform);
 
@@ -58,7 +57,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 
 
 
-			instanceTrajectory.GetComponent<RectTransform> ().localPosition = new Vector3 (0.0f, 0.0f, 0.0f);
+			instanceTrajectory.GetComponent<RectTransform> ().localPosition = Vector3.zero;
 
 			Transform instanceAirplane = instanceTrajectory.transform.Find ("AirplaneIcon");
 			instanceAirplane.GetComponent<RectTransform> ().localPosition = (Vector3)waypointsArray [0];
@@ -84,21 +83,22 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 		}
 	}
 
+	public void refresh () {
+		clean ();
+		// Draw airplanes again
+		ArrayList airplanes = AirplaneController.airplaneCtrl.getAirplanes ();
+		foreach (AirplaneModel airplane in airplanes) {
+			drawAirplane (airplane.id, airplane.waypoints);
+		}
+	}
+
 	public void clean() {
 		foreach(Transform child in transform) {
 			Destroy(child.gameObject);
 		}
-		//Destroy (trajectory.GetComponent<UILineRenderer>() );
 	}
+		
 
-	public void refresh () {
-		clean ();
 
-		// Draw airplanes again
-		ArrayList airplanes = AirplaneController.airplaneCtrl.getAirplanes ();
-		foreach (AirplaneData airplane in airplanes) {
-			drawAirplane (airplane.id, airplane.waypoints);
-		}
-	}
 
 }

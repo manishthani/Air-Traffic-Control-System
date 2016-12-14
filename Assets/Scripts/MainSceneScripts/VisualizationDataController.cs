@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 public class  VisualizationDataController : MonoBehaviour {
-
+	// TODO: total airplanes arrived is not necessary equal to the total number of airplanes in the system
 	public static VisualizationDataController vdCtrl = null;
 
 	private DateTime startTime;
@@ -45,8 +45,8 @@ public class  VisualizationDataController : MonoBehaviour {
 
 	}
 	void Update() {
-		if (RenderController.renderCtrl.allATC != null) {
-			totalAirplanesArrived = RenderController.renderCtrl.allATC.Count;
+		if (GameMaster.gm != null) {
+			totalAirplanesArrived = GameMaster.gm.totalAirplanes();
 		}
 	}
 }

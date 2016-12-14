@@ -27,7 +27,6 @@ public class Utilities {
 				array.Add (positionVector);
 			}
 		}
-
 		return array;
 	}
 		

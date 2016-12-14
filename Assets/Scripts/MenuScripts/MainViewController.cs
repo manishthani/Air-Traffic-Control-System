@@ -2,8 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class MainController : MonoBehaviour {
-	public static MainController mainCtrl = null;
+public class MainViewController : MonoBehaviour {
+	public static MainViewController mainCtrl = null;
 
 	private GameObject mainPanel;
 	private GameObject settingsPanel;
@@ -13,7 +13,7 @@ public class MainController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (mainCtrl == null) {
-			mainCtrl = new MainController ();
+			mainCtrl = new MainViewController ();
 		}
 		mainPanel = transform.Find ("MainPanel").gameObject;
 		settingsPanel = transform.Find ("SettingsPanel").gameObject;
@@ -40,7 +40,14 @@ public class MainController : MonoBehaviour {
 	}
 
 	public void showInsertAirplanePanel() {
+		// Refresh Airplane Trajectories before showing
 		showAirplanesPanel.SetActive (false);
 		insertAirplanePanel.SetActive (true);
+		insertAirplanePanel.GetComponent<InsertAirplaneView> ().trajectory.GetComponent<AirplaneTrajectoriesView> ().clean ();
+
+	}
+
+	public void loadVisualizationScene() {
+		LoadScenes.loadMainScene ();
 	}
 }

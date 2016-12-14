@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-public class LoadScenes : MonoBehaviour {
+public class LoadScenes {
 
-	public void loadMainScene() {
+	public static void loadMainScene() {
 		SceneManager.LoadScene ("MainScene");
 	}
 
-	public void loadMenuScene() {
+	public static void loadMenuScene() {
 		SceneManager.LoadScene ("Menu");
 	}
 
-	public void loadResultScene() {
+	public static void loadResultScene() {
 		VisualizationDataController.vdCtrl.setTotalTime();
 		SceneManager.LoadScene ("Results");
 	}

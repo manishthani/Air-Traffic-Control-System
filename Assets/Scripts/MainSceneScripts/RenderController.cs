@@ -6,28 +6,29 @@ using System.Collections;
 public class RenderController : MonoBehaviour {
 	public static RenderController renderCtrl = null;
 
-	public ArrayList allATC;
 
 	void Start () {
 		RenderController.renderCtrl = new RenderController ();
+		//if (DataController.dataCtrl != null) {
+		ArrayList allATC = instantiateAllAirplanes ();
+		attachScripts (allATC);
+		//}
 		VisualizationDataController.vdCtrl.setStartTime();
 
-		instantiateAllAirplanes ();
-		attachScripts ();
 	}
 
-	// Use this for initialization
 
-	public void instantiateAllAirplanes () {
+	public ArrayList instantiateAllAirplanes () {
 
 		// Obtaining airplanes from data controller
+
 		ArrayList airplanes = DataController.dataCtrl.airplanes;
-		allATC = new ArrayList();
+		ArrayList atcList = new ArrayList();
 
 		GameObject atcPrefab = Resources.Load ("ATC-System") as GameObject;
 		GameObject waypointPrefab = Resources.Load ("Waypoint") as GameObject;
 
-		foreach (AirplaneData airplaneData in airplanes) {
+		foreach (AirplaneModel airplaneData in airplanes) {
 			
 			// Cast to Vector 2 the waypoints
 			ArrayList waypointsData = Utilities.parseToVector3(airplaneData.waypoints);
@@ -35,6 +36,7 @@ public class RenderController : MonoBehaviour {
 			// Instantiate airplane (waypoints[0] is the initial airplane position) 
 			Vector3 airplanePos = (Vector3) waypointsData[0];
 			GameObject atc = Instantiate (atcPrefab, new Vector3(airplanePos.x, airplanePos.z, airplanePos.y), atcPrefab.transform.rotation) as GameObject;
+			atc.name = airplaneData.id.ToString ();
 
 			Transform airplane = atc.transform.FindChild ("MyAirplane");
 
@@ -52,16 +54,16 @@ public class RenderController : MonoBehaviour {
 			}
 				
 			// Save Instance to collection of airplanes
-			allATC.Add (atc);
+			atcList.Add (atc);
 		}
+		return atcList;
 	}
 
-	public void attachScripts () {
+	public void attachScripts (ArrayList allATC) {
 		foreach (GameObject atc in allATC) {
 			GameObject myAirplane = atc.transform.FindChild ("MyAirplane").gameObject;
 			// Airplane Scripts
 			myAirplane.AddComponent<AircraftMovement> ();
-
 			// Future Position scripts
 			GameObject futurePositionParent = atc.transform.FindChild("FuturePositions").gameObject;
 

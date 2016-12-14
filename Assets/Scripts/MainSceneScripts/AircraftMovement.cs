@@ -6,8 +6,8 @@ using System.Collections;
 
 public class AircraftMovement : MonoBehaviour {
 
-	public float currentSpeed = 600.0f;
 
+	public float currentSpeed = 600.0f;
 	public float knots = 600.0f;
 
 	private GameObject camera3D;
@@ -50,7 +50,7 @@ public class AircraftMovement : MonoBehaviour {
 		}
 		// Cambiar esto
 		camera3D = transform.Find("Radar").Find("LongAreaDetector").gameObject;
-
+		UIController.UICtrl.addAirplaneInMiniatureImage (transform.parent.name, transform.position);
 	}
 
 
@@ -77,5 +77,8 @@ public class AircraftMovement : MonoBehaviour {
 
 			}
 		} 
+
+		UIController.UICtrl.updateAirplaneInMiniatureImage (transform.parent.name, transform.position);
+
 	}
 }

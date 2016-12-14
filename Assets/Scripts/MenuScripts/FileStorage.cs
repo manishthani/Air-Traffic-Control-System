@@ -4,11 +4,11 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
-public class LocalData {
+public class FileStorage {
 
 	public static String PATH = "/atc.dat";
 
-	public void Save(AirplaneData data) {
+	public void Save(AirplaneModel data) {
 		FileStream file;
 		if (!File.Exists (Application.persistentDataPath + PATH)) {
 			file = File.Open (Application.persistentDataPath + PATH, FileMode.OpenOrCreate);
@@ -30,7 +30,7 @@ public class LocalData {
 
 			FileStream file = File.Open (Application.persistentDataPath + PATH, FileMode.Open);
 			while(file.Position != file.Length){
-				AirplaneData data = (AirplaneData)bf.Deserialize (file);
+				AirplaneModel data = (AirplaneModel)bf.Deserialize (file);
 
 				playersData.Add (data);
 			}
@@ -40,11 +40,11 @@ public class LocalData {
 	}
 
 
-	public int Insert (AirplaneData airplaneData) {
+	public int Insert (AirplaneModel airplaneData) {
 		ArrayList allData = Load();
 		bool airplaneExist = (airplaneData.id != -1);
 		if (airplaneExist) {
-			foreach (AirplaneData p in allData) {
+			foreach (AirplaneModel p in allData) {
 				if (p.id == airplaneData.id ) {
 					airplaneExist = true; 
 
@@ -58,7 +58,7 @@ public class LocalData {
 			SaveAll (allData, FileMode.OpenOrCreate);
 		} else {
 			int maxId = 0;
-			foreach (AirplaneData p in allData) {
+			foreach (AirplaneModel p in allData) {
 				if (p.id > maxId) {
 					maxId = p.id;
 				}
@@ -71,7 +71,7 @@ public class LocalData {
 
 	public void deleteAirplaneWithId (int id) {
 		ArrayList allData = Load ();
-		foreach (AirplaneData p in allData) {
+		foreach (AirplaneModel p in allData) {
 			if (p.id == id ) {
 				allData.Remove (p);
 				break;
@@ -85,24 +85,10 @@ public class LocalData {
 		FileStream file = File.Open (Application.persistentDataPath + PATH, mode);
 		// Guardamos todo de nuevo
 		BinaryFormatter bf = new BinaryFormatter ();
-		foreach (AirplaneData data in allData) {
+		foreach (AirplaneModel data in allData) {
 			bf.Serialize (file, data);
 		}
 		file.Close ();
 	}
 }
-
-[Serializable]
-public class AirplaneData {
-
-	public int id;
-	public string name;
-	public string waypoints;
-	//public ArrayList waypoints;
-
-	public AirplaneData (int id, string name, string waypoints) {
-		this.id = id;
-		this.name = name;
-		this.waypoints = waypoints;
-	} 
-}
+	
