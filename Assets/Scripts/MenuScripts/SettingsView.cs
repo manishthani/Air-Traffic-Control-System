@@ -9,19 +9,15 @@ public class SettingsView : MonoBehaviour {
 
 	void Start() {
 		slider = gameObject.GetComponent<Slider> ();
-	}
 
-	void Update() {
-		if (SettingsViewController.settingsViewCtrl.isDataControllerNull()) {
-			if (transform.parent.name == "MaximumFutureAirplaneDistance") {
-				slider.value = SettingsViewController.settingsViewCtrl.getCurrentDistance ();
-			} else if (transform.parent.name == "LongDetectorRadius") {
-				slider.value = SettingsViewController.settingsViewCtrl.getLongAreaDetectorRadius ();
-			} else if (transform.parent.name == "ShortDetectorRadius") {
-				slider.value = SettingsViewController.settingsViewCtrl.getShortAreaDetectorRadius ();
-			} else if (transform.parent.name == "AirplaneSpeed") {
-				slider.value = SettingsViewController.settingsViewCtrl.getAirplaneSpeed ();
-			}
+		if (transform.parent.name == "MaximumFutureAirplaneDistance") {
+			slider.value = SettingsViewController.settingsViewCtrl.getCurrentDistance ();
+		} else if (transform.parent.name == "LongDetectorRadius") {
+			slider.value = SettingsViewController.settingsViewCtrl.getLongAreaDetectorRadius ();
+		} else if (transform.parent.name == "ShortDetectorRadius") {
+			slider.value = SettingsViewController.settingsViewCtrl.getShortAreaDetectorRadius ();
+		} else if (transform.parent.name == "AirplaneSpeed") {
+			slider.value = SettingsViewController.settingsViewCtrl.getAirplaneSpeed ();
 		}
 	}
 		

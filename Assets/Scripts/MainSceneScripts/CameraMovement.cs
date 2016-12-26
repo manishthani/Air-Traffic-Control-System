@@ -6,11 +6,17 @@ public class CameraMovement : MonoBehaviour {
 
 	private GameObject camera2D;
 	private GameObject camera3D;
+	private GameObject futurePositions;
+
+	public float speed = 0.05f;
 
 	// Use this for initialization
 	void Start () {
 		camera2D = GameObject.FindWithTag ("2DCamera");
 		camera3D = transform.parent.parent.Find ("3DCamera").gameObject;
+		camera3D.SetActive (false);
+		futurePositions = transform.parent.parent.parent.Find ("FuturePositions").gameObject;
+
 	}
 
 	// Update is called once per frame
@@ -19,27 +25,23 @@ public class CameraMovement : MonoBehaviour {
 			camera3D.SetActive (false);
 			camera2D.SetActive (true);
 		}
+
+
 	}
 
-	public void manageCamera3DControlsOfNextWaypoint( Transform waypoint) {
-		// Aircraft movement controls
-		if (Input.GetKey (KeyCode.UpArrow)) {
-			waypoint.Translate (Vector3.up,Space.Self);
-		}
-		if (Input.GetKey (KeyCode.DownArrow)) {
-			waypoint.Translate (Vector3.down,Space.Self);
-		}
-		if (Input.GetKey (KeyCode.LeftArrow)) {
-			waypoint.Translate (Vector3.left,Space.Self);
-		}
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			waypoint.Translate (Vector3.right,Space.Self);
-		}
-		if (Input.GetKey (KeyCode.Z)) {
-			waypoint.Translate (Vector3.forward, Space.Self);
-		}
-		if (Input.GetKey (KeyCode.X)) {
-			waypoint.Translate (Vector3.back, Space.Self);
+	public void manageCamera3DControlsOfNextWaypoint( GameObject airplane, Transform waypoint) {
+		if (camera3D.activeSelf) {
+			Vector3 direction = new Vector3 ();
+			// Aircraft movement controls
+			if (Input.GetKey (KeyCode.UpArrow)) {
+				direction = Vector3.up;
+			}
+			if (Input.GetKey (KeyCode.DownArrow)) {
+				direction = Vector3.down;
+			}
+			waypoint.Translate (direction * speed, Space.World);
+			airplane.transform.Translate (direction * speed, Space.World);
+			futurePositions.transform.Translate (direction * speed, Space.World);
 		}
 	}
 

@@ -5,15 +5,15 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
 public class FileStorage {
-
-	public static String PATH = "/atc.dat";
+	public string PATH_ATC = "/atc.dat"; 
+	public string PATH_SETTINGS = "/settings.dat";
 
 	public void Save(AirplaneModel data) {
 		FileStream file;
-		if (!File.Exists (Application.persistentDataPath + PATH)) {
-			file = File.Open (Application.persistentDataPath + PATH, FileMode.OpenOrCreate);
+		if (!File.Exists (Application.persistentDataPath + PATH_ATC)) {
+			file = File.Open (Application.persistentDataPath + PATH_ATC, FileMode.OpenOrCreate);
 		} else {
-			file = File.Open (Application.persistentDataPath + PATH, FileMode.Append);
+			file = File.Open (Application.persistentDataPath + PATH_ATC, FileMode.Append);
 		}
 
 		BinaryFormatter bf = new BinaryFormatter ();
@@ -24,11 +24,11 @@ public class FileStorage {
 
 	public ArrayList Load() {
 		ArrayList playersData = new ArrayList ();
-
-		if (File.Exists (Application.persistentDataPath + PATH)) {
+		Debug.Log (Application.persistentDataPath);
+		if (File.Exists (Application.persistentDataPath + PATH_ATC)) {
 			BinaryFormatter bf = new BinaryFormatter ();
 
-			FileStream file = File.Open (Application.persistentDataPath + PATH, FileMode.Open);
+			FileStream file = File.Open (Application.persistentDataPath + PATH_ATC, FileMode.Open);
 			while(file.Position != file.Length){
 				AirplaneModel data = (AirplaneModel)bf.Deserialize (file);
 
@@ -82,12 +82,32 @@ public class FileStorage {
 
 	public void SaveAll(ArrayList allData, FileMode mode) {
 		
-		FileStream file = File.Open (Application.persistentDataPath + PATH, mode);
-		// Guardamos todo de nuevo
+		FileStream file = File.Open (Application.persistentDataPath + PATH_ATC, mode);
+		// We save all again
 		BinaryFormatter bf = new BinaryFormatter ();
 		foreach (AirplaneModel data in allData) {
 			bf.Serialize (file, data);
 		}
+		file.Close ();
+	}
+
+
+	public SettingsModel readSettings() {
+		if (File.Exists (Application.persistentDataPath + PATH_SETTINGS)) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open (Application.persistentDataPath + PATH_SETTINGS, FileMode.Open);
+			SettingsModel data = (SettingsModel)bf.Deserialize (file);
+			file.Close ();
+			return data;
+		}
+		return null;
+	}
+
+	public void updateSettings (SettingsModel data) {
+		FileStream file = File.Open (Application.persistentDataPath + PATH_SETTINGS, FileMode.Create);
+		// We save all again
+		BinaryFormatter bf = new BinaryFormatter ();
+		bf.Serialize (file, data);
 		file.Close ();
 	}
 }

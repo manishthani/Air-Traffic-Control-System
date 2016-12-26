@@ -23,17 +23,17 @@ public class AirplaneController {
 	}
 
 	public void insertAirplane(string modelName, string waypoints) {
-		localDataCtrl.insert (modelName, waypoints);
+		localDataCtrl.insertAirplane (modelName, waypoints);
 		airplanes = localDataCtrl.Load ();
 	}
 
 	public void updateAirplane(int id, string modelName, string waypoints) {
-		localDataCtrl.update (id, modelName, waypoints);
+		localDataCtrl.updateAirplane (id, modelName, waypoints);
 		airplanes = localDataCtrl.Load ();
 	}
 
 	public void deleteAirplaneWithId (int id) {
-		localDataCtrl.delete (id);
+		localDataCtrl.deleteAirplane (id);
 		airplanes = localDataCtrl.Load ();
 	}
 }

@@ -4,9 +4,11 @@ using System.Collections;
 public class SettingsViewController : MonoBehaviour {
 	public static SettingsViewController settingsViewCtrl = null;
 
-	void Start () {
+	void Awake () {
 		if (settingsViewCtrl == null) {
 			settingsViewCtrl = new SettingsViewController ();
+			SettingsController.settingsCtrl = new SettingsController ();
+
 		}
 	}
 	
@@ -17,36 +19,45 @@ public class SettingsViewController : MonoBehaviour {
 
 	// Getters
 	public float getCurrentDistance() {
-		return DataController.dataCtrl.currentDistance;
+		return SettingsController.settingsCtrl.maxFutureDistance;
 	}
 
 	public float getLongAreaDetectorRadius() {
-		return DataController.dataCtrl.longAreaDetectorRadius;
+		return SettingsController.settingsCtrl.longRadius;
 	}
 
 	public float getShortAreaDetectorRadius() {
-		return DataController.dataCtrl.shortAreaDetectorRadius;
+		return SettingsController.settingsCtrl.shortRadius;
 	}
 
 	public float getAirplaneSpeed() {
-		return DataController.dataCtrl.airplaneSpeed;
+		return SettingsController.settingsCtrl.speed;
 	}
 
 
 	// Setters 
 	public void setCurrentDistance(float currentDistance) {
+		SettingsController.settingsCtrl.maxFutureDistance = Mathf.FloorToInt( currentDistance);
 		DataController.dataCtrl.currentDistance = currentDistance;
 	}
 
 	public void setLongAreaDetectorRadius(float longAreaDetectorRadius) {
+		SettingsController.settingsCtrl.longRadius = Mathf.FloorToInt(longAreaDetectorRadius);
 		DataController.dataCtrl.longAreaDetectorRadius = longAreaDetectorRadius;
 	}
 
 	public void setShortAreaDetectorRadius(float shortAreaDetectorRadius) {
+		SettingsController.settingsCtrl.shortRadius = Mathf.FloorToInt(shortAreaDetectorRadius);
 		DataController.dataCtrl.shortAreaDetectorRadius = shortAreaDetectorRadius;
 	}
 
 	public void setAirplaneSpeed(float airplaneSpeed) {
+		SettingsController.settingsCtrl.speed = Mathf.FloorToInt(airplaneSpeed);
 		DataController.dataCtrl.airplaneSpeed = airplaneSpeed;
 	}
+
+	public void acceptButtonEvent() {
+		SettingsController.settingsCtrl.saveSettings ();
+	}
+
 }

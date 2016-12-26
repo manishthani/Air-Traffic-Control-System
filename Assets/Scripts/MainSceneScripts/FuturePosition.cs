@@ -34,10 +34,20 @@ public class FuturePosition : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 
 		if (other.gameObject.name == this.gameObject.name) {
+			
+			float spaceCollision = int.Parse (other.gameObject.name) * DataController.dataCtrl.currentDistance;
+			float speedCollision = aircraftMovementScript.realSpeed;
+			float timeForCollision = (spaceCollision / speedCollision);
+
+			Transform atc1 = transform.parent.parent;
+			string airplaneName1 = atc1.Find ("MyAirplane").Find ("Canvas").Find ("textAirplaneModel").GetComponent<Text> ().text;
+
+			Transform atc2 = other.transform.parent.parent;
+			string airplaneName2 = atc2.Find ("MyAirplane").Find ("Canvas").Find ("textAirplaneModel").GetComponent<Text> ().text;
+
 			// Collision
 			GameMaster.gm.showWarningPanel ();
-			GameMaster.gm.addInfoToWarningPanel (transform.parent.parent.gameObject.name,  other.transform.parent.parent.gameObject.name, int.Parse(other.gameObject.name));
-		
+			GameMaster.gm.addInfoToWarningPanel (airplaneName1,  airplaneName2, timeForCollision);
 		}
 	}
 }

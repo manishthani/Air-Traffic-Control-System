@@ -44,6 +44,8 @@ public class  VisualizationDataController : MonoBehaviour {
 
 
 	}
+
+	// TODO: Why is this in Update Function?
 	void Update() {
 		if (GameMaster.gm != null) {
 			totalAirplanesArrived = GameMaster.gm.totalAirplanes();

@@ -11,11 +11,7 @@ public class GameMaster : MonoBehaviour {
 		if (gm == null) {
 			gm = new GameMaster ();
 		}
-		airplanesMovement = new ArrayList ();
-		GameObject[] airplaneObjects = GameObject.FindGameObjectsWithTag("Airplane");
-		foreach (GameObject airplaneObject in airplaneObjects) {
-			airplanesMovement.Add (airplaneObject.GetComponent<AircraftMovement>());
-		}
+
 	}
 
 	// Sound Alerts
@@ -40,8 +36,10 @@ public class GameMaster : MonoBehaviour {
 		UIController.UICtrl.showWarningPanel ();
 	}
 
-	public void addInfoToWarningPanel (string airplaneModelName1, string airplaneModelName2, int futurePosition) {
-		
+	public void addInfoToWarningPanel (string airplaneModelName1, string airplaneModelName2, float timeForCollision) {
+		UIController.UICtrl.eraseInfoInWarningPanel ();
+		string warningInfo = "Collision of " + airplaneModelName1 + " and " + airplaneModelName2 + " in " + timeForCollision + " seconds!";
+		UIController.UICtrl.addWarningPanelInfo(warningInfo);
 	}
 
 	public void loadResultScene () {
@@ -52,21 +50,68 @@ public class GameMaster : MonoBehaviour {
 		return airplanesMovement.Count;
 	}
 
-	// Update is called once per frame
-	void Update () {
-		bool allAirplanesArrived = true;
-
+	private int getNumberAirplanesArrived() {
+		int numberAirplanesArrived = 0;
 		foreach(AircraftMovement airplaneMovement in airplanesMovement) {
 			if (airplaneMovement != null) {
-				if (!airplaneMovement.hasArrivedInDestination ()) {
-					allAirplanesArrived = false;
+				if (airplaneMovement.hasArrivedInDestination ()) {
+					++numberAirplanesArrived;
 				}
 			}
-			else allAirplanesArrived = false;
+		}
+		return numberAirplanesArrived;
+
+	}
+
+	// Update is called once per frame
+	void Update () {
+		airplanesMovement = new ArrayList ();
+		GameObject[] airplaneObjects = GameObject.FindGameObjectsWithTag("Airplane");
+		for (int i = 0; i < airplaneObjects.Length; ++i) {
+			airplanesMovement.Add (airplaneObjects[i].GetComponent<AircraftMovement>());
 		}
 
-		if (allAirplanesArrived) {
-			LoadScenes.loadResultScene ();
+		if (airplanesMovement.Count != 0) {
+
+
+			int numberAirplanesArrived = getNumberAirplanesArrived ();
+			bool allAirplanesArrived = (numberAirplanesArrived == airplanesMovement.Count);
+			VisualizationDataController.vdCtrl.totalAirplanesArrived = numberAirplanesArrived;
+			VisualizationDataController.vdCtrl.totalAirplanesEnRoute = airplanesMovement.Count - numberAirplanesArrived;
+			if (allAirplanesArrived) {
+				loadResultScene ();
+			}
+
+
+			// Check for collisions
+			destroyCloseAirplanes ();
+		}
+	}
+
+	public void destroyCloseAirplanes() {
+		if (airplanesMovement != null) {
+			for (int i = 0; i < airplanesMovement.Count; ++i) {
+				AircraftMovement am1 = (AircraftMovement)airplanesMovement [i];
+				for (int j = i + 1; j < airplanesMovement.Count; ++j) {
+					AircraftMovement am2 = (AircraftMovement)airplanesMovement [j];
+					if (Vector3.Distance (am1.getAirplanePosition (), am2.getAirplanePosition ()) < 1) {
+						// Remove it from collections
+						airplanesMovement.Remove(am1);
+						airplanesMovement.Remove (am2);
+
+						// Destroy ATCs
+						Destroy (am1.transform.parent.gameObject);
+						Destroy (am2.transform.parent.gameObject);
+
+						// Stop Playing alarm
+						stopAlert();
+
+
+						// Increase variable in  Visualization Data
+						VisualizationDataController.vdCtrl.totalCollisions += 2;
+					}
+				}
+			} 
 		}
 	}
 }

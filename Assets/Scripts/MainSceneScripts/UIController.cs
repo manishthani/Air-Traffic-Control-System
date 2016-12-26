@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour{
 	public static UIController UICtrl;
 
-	private Text collisionScrollViewText;
+	private GameObject collisionScrollView;
 	private GameObject warningPanel;
 	private GameObject speedSlider;
 	private GameObject airplaneMiniatureImage;
@@ -19,13 +19,13 @@ public class UIController : MonoBehaviour{
 		}
 
 		// This should not be in the controller!
-		collisionScrollViewText = transform.FindChild ("CollisionInfoScrollView").FindChild ("ViewPort").FindChild ("Content").GetComponent<Text>();
+		collisionScrollView = transform.FindChild ("CollisionInfoScrollView").FindChild ("ViewPort").FindChild ("Content").gameObject;
 
 			
 		warningPanel = transform.FindChild ("WarningPanel").gameObject;
 		speedSlider = transform.FindChild ("SpeedSlider").gameObject;
 		airplaneMiniatureImage = transform.FindChild ("AirplaneMiniatureImage").gameObject;
-		airplaneIcon = Resources.Load ("AirplaneIcon") as GameObject;
+		airplaneIcon = airplaneMiniatureImage.transform.Find("AirplaneIcon").gameObject;
 
 		airplanesHash = new Hashtable ();
 		hideWarningPanel ();
@@ -33,7 +33,9 @@ public class UIController : MonoBehaviour{
 	}
 
 	public void addCollisionInfo (string description) {
-		collisionScrollViewText.text += description + "\n\n";
+		collisionScrollView.GetComponent<Text>().text += description + "\n\n";
+		RectTransform rect = collisionScrollView.GetComponent<RectTransform> ();
+		rect.offsetMin = new Vector2 (rect.offsetMin.x, rect.offsetMin.y - 50.0f);
 	}
 
 	public void showWarningPanel() {
@@ -43,9 +45,15 @@ public class UIController : MonoBehaviour{
 	public void hideWarningPanel() {
 		warningPanel.SetActive (false);
 	}
-		
+
+	public void eraseInfoInWarningPanel() {
+		warningPanel.transform.FindChild ("TextDescription").GetComponent<Text> ().text = string.Empty;
+	}
+
 	public void addWarningPanelInfo(string description) {
 		warningPanel.transform.FindChild ("TextDescription").GetComponent<Text> ().text = description;
+		addCollisionInfo (description.ToUpper ());
+
 	}
 
 	public void confirmExitButtonEvent() {
@@ -56,23 +64,32 @@ public class UIController : MonoBehaviour{
 		return speedSlider.GetComponent<Slider> ().value;
 	}
 
-	public void updateAirplaneInMiniatureImage (string id, Vector3 position) {
-		Vector2 normalizedVector = new Vector2 (((position.x/500.0f) * 150.0f), ((position.z/500.0f) * 150.0f));
+	public void updateAirplaneInMiniatureImage (string id, Vector3 position, Color color, Vector2 waypoint) {
+		RectTransform rect = airplaneMiniatureImage.GetComponent<RectTransform> ();
+		Vector2 normalizedVector = new Vector2 (((position.x/500.0f) * rect.rect.size.x * 0.95f), ((position.z/500.0f) * rect.rect.size.y) * 0.95f);
 		GameObject airplaneInstance = airplanesHash [id] as GameObject;
 
-		airplaneInstance.transform.localPosition = new Vector3 (normalizedVector.x, normalizedVector.y, 0.0f);
+		Vector3 diff = normalizedVector - waypoint;
+		diff.Normalize();
+		float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+		airplaneInstance.transform.rotation = Quaternion.Euler(0f, 0f, rot_z + 90.0f);
+
+		airplaneInstance.GetComponent<RectTransform> ().anchoredPosition = normalizedVector;
+
+		airplaneInstance.GetComponent<CanvasRenderer> ().SetColor(color);
+
+
 	}
 
 	public void addAirplaneInMiniatureImage (string id, Vector3 position) {
-
-		Vector2 normalizedVector = new Vector2 (((position.x/500.0f) * 150.0f), ((position.z/500.0f) * 150.0f));
-		GameObject airplaneInstance = Instantiate (airplaneIcon, new Vector3 (0.0f, 0.0f, 0.0f), airplaneMiniatureImage.transform.rotation) as GameObject;
-		airplaneInstance.transform.parent = airplaneMiniatureImage.transform;
-		airplaneInstance.transform.localPosition = new Vector3 (normalizedVector.x, normalizedVector.y, 0.0f);
-
+		
+		GameObject airplaneInstance = Instantiate (airplaneIcon, Vector3.zero, Quaternion.identity) as GameObject;
+		airplaneInstance.transform.SetParent(airplaneMiniatureImage.transform);
 		airplaneInstance.SetActive (true);
-
 		airplanesHash.Add (id, airplaneInstance);
 	}
 
+	public void onAccelerationSliderValueChange() {
+		speedSlider.transform.Find ("Panel").Find ("Text").GetComponent<Text> ().text = speedSlider.GetComponent<Slider> ().value.ToString();
+	}
 }

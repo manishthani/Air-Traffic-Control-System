@@ -20,6 +20,9 @@ public class ShowAirplanesView : MonoBehaviour {
 	//Trajectories panel
 	public GameObject trajectories;
 
+	// Add Airplane Button
+	public GameObject addAirplaneButton;
+
 	public void removeAirplanes () {
 		for (int i = 0; i < tableAirplanes.transform.childCount; ++i) {
 			// Only removes instances, not prefab
@@ -48,6 +51,7 @@ public class ShowAirplanesView : MonoBehaviour {
 	}
 
 	public void checkboxDeleteEvent () {
+		Debug.Log ("Checkbox event");
 		bool enabledDeletePanel = false;
 		for (int i = 0; i < tableAirplanes.transform.childCount; ++i) {
 			Transform row = tableAirplanes.transform.GetChild (i);
@@ -57,6 +61,7 @@ public class ShowAirplanesView : MonoBehaviour {
 			}
 		}
 		deletePanel.SetActive (enabledDeletePanel);
+		addAirplaneButton.SetActive (!enabledDeletePanel);
 	}
 
 	public void cancelButtonInDeletePanelEvent() {
@@ -67,6 +72,7 @@ public class ShowAirplanesView : MonoBehaviour {
 			}
 		}
 		deletePanel.SetActive (false);
+		addAirplaneButton.SetActive (true);
 	}
 
 	public void deleteButtonInDeletePanelEvent() {

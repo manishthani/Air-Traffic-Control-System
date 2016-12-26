@@ -6,7 +6,6 @@ using System.Collections;
 public class RenderController : MonoBehaviour {
 	public static RenderController renderCtrl = null;
 
-
 	void Start () {
 		RenderController.renderCtrl = new RenderController ();
 		//if (DataController.dataCtrl != null) {
@@ -35,10 +34,11 @@ public class RenderController : MonoBehaviour {
 
 			// Instantiate airplane (waypoints[0] is the initial airplane position) 
 			Vector3 airplanePos = (Vector3) waypointsData[0];
-			GameObject atc = Instantiate (atcPrefab, new Vector3(airplanePos.x, airplanePos.z, airplanePos.y), atcPrefab.transform.rotation) as GameObject;
+			GameObject atc = Instantiate (atcPrefab, Vector3.zero, atcPrefab.transform.rotation) as GameObject;
 			atc.name = airplaneData.id.ToString ();
 
 			Transform airplane = atc.transform.FindChild ("MyAirplane");
+			airplane.position = new Vector3 (airplanePos.x, airplanePos.z, airplanePos.y);
 
 			// Set id and model name
 			Text airplaneModelNameText = airplane.FindChild("Canvas").FindChild("textAirplaneModel").GetComponent<Text>();
@@ -66,7 +66,7 @@ public class RenderController : MonoBehaviour {
 			myAirplane.AddComponent<AircraftMovement> ();
 			// Future Position scripts
 			GameObject futurePositionParent = atc.transform.FindChild("FuturePositions").gameObject;
-
+			futurePositionParent.transform.position = myAirplane.transform.position;
 			futurePositionParent.AddComponent<LookAtFirstWaypoint> ();
 			for (int i = 0; i < futurePositionParent.transform.childCount; ++i) {
 				GameObject futurePosition = futurePositionParent.transform.GetChild (i).gameObject;

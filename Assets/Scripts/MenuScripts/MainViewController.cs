@@ -15,10 +15,12 @@ public class MainViewController : MonoBehaviour {
 		if (mainCtrl == null) {
 			mainCtrl = new MainViewController ();
 		}
-		mainPanel = transform.Find ("MainPanel").gameObject;
-		settingsPanel = transform.Find ("SettingsPanel").gameObject;
-		showAirplanesPanel = transform.Find("AirplanePanels").Find ("ShowAirplanesPanel").gameObject;
-		insertAirplanePanel = transform.Find("AirplanePanels").Find ("InsertAirplanePanel").gameObject;
+		mainPanel = transform.Find (Constants.MAINPANEL).gameObject;
+		settingsPanel = transform.Find (Constants.SETTINGSPANEL).gameObject;
+
+		Transform airplanePanels = transform.Find (Constants.AIRPLANEPANELS);
+		showAirplanesPanel = airplanePanels.Find (Constants.SHOWAIRPLANEPANEL).gameObject;
+		insertAirplanePanel = airplanePanels.Find (Constants.INSERTAIRPLANEPANEL).gameObject;
 	}
 	
 	public void showSettingsPanel() {
