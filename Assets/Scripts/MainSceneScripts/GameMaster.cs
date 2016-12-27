@@ -110,8 +110,6 @@ public class GameMaster : MonoBehaviour {
 
 						// Stop Playing alarm
 						stopAlert();
-
-
 						// Increase variable in  Visualization Data
 						VisualizationDataController.vdCtrl.totalCollisions += 2;
 					}

@@ -58,4 +58,9 @@ public class CameraMovement : MonoBehaviour {
 			camera2D.SetActive (false);	
 		}
 	}
+
+	void OnDestroy() {
+		camera3D.SetActive (false);
+		camera2D.SetActive (true);
+	}
 }
