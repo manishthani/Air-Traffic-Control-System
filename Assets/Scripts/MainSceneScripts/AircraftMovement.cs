@@ -50,7 +50,7 @@ public class AircraftMovement : MonoBehaviour {
 			targets.Add (waypoints.GetChild (i));
 		}
 		// Cambiar esto
-		camera3D = transform.Find("Radar").Find(Constants.LONGRANGEDETECTOR).gameObject;
+		camera3D = transform.Find(Constants.RADAR).Find(Constants.LONGRANGEDETECTOR).gameObject;
 		UIController.UICtrl.addAirplaneInMiniatureImage (transform.parent.name, transform.position);
 
 	}

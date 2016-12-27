@@ -12,10 +12,10 @@ public class CameraMovement : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		camera2D = GameObject.FindWithTag ("2DCamera");
-		camera3D = transform.parent.parent.Find ("3DCamera").gameObject;
+		camera2D = GameObject.FindWithTag (Constants.CAMERA2D);
+		camera3D = transform.parent.parent.Find (Constants.CAMERA3D).gameObject;
 		camera3D.SetActive (false);
-		futurePositions = transform.parent.parent.parent.Find ("FuturePositions").gameObject;
+		futurePositions = transform.parent.parent.parent.Find (Constants.FUTUREPOSITIONS).gameObject;
 
 	}
 
@@ -34,14 +34,20 @@ public class CameraMovement : MonoBehaviour {
 			Vector3 direction = new Vector3 ();
 			// Aircraft movement controls
 			if (Input.GetKey (KeyCode.UpArrow)) {
-				direction = Vector3.up;
+				if (airplane.transform.position.y * Constants.FEETTOMILE <= 25000.0f) {
+					direction = Vector3.up;
+				}
 			}
 			if (Input.GetKey (KeyCode.DownArrow)) {
-				direction = Vector3.down;
+				if (airplane.transform.position.y * Constants.FEETTOMILE >= 1000.0f) {
+					direction = Vector3.down;
+				}
 			}
+
 			waypoint.Translate (direction * speed, Space.World);
 			airplane.transform.Translate (direction * speed, Space.World);
 			futurePositions.transform.Translate (direction * speed, Space.World);
+
 		}
 	}
 

@@ -4,15 +4,15 @@ using UnityEngine.SceneManagement;
 public class LoadScenes{
 
 	public static void loadMainScene() {
-		SceneManager.LoadScene ("MainScene");
+		SceneManager.LoadScene (Constants.MAINSCENE);
 	}
 
 	public static void loadMenuScene() {
-		SceneManager.LoadScene ("Menu");
+		SceneManager.LoadScene (Constants.MENU);
 	}
 
 	public static void loadResultScene() {
 		VisualizationDataController.vdCtrl.setTotalTime();
-		SceneManager.LoadScene ("Results");
+		SceneManager.LoadScene (Constants.RESULTS);
 	}
 }

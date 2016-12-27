@@ -37,7 +37,7 @@ public class PopulateTables: MonoBehaviour {
 	public void removeRows(GameObject table) {
 		for (int i = 0; i < table.transform.childCount; ++i) {
 			// Only removes instances, not prefab
-			if (table.transform.GetChild(i).name.Contains ("(Clone)")) {
+			if (table.transform.GetChild(i).name.Contains (Constants.CLONE)) {
 				Destroy (table.transform.GetChild (i).gameObject);
 			}
 		}

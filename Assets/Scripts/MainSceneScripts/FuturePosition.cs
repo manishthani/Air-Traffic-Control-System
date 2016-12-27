@@ -13,7 +13,7 @@ public class FuturePosition : MonoBehaviour {
 		transform.Translate (new Vector3 (0.0f, 0.0f, distance * positionNumber));
 
 		// Script
-		GameObject myAirplane = transform.parent.parent.FindChild("MyAirplane").gameObject;
+		GameObject myAirplane = transform.parent.parent.FindChild(Constants.MYAIRPLANE).gameObject;
 		aircraftMovementScript = myAirplane.GetComponent<AircraftMovement> ();
 		nextTarget = aircraftMovementScript.getCurrentTarget ();
 	}
@@ -40,14 +40,20 @@ public class FuturePosition : MonoBehaviour {
 			float timeForCollision = (spaceCollision / speedCollision);
 
 			Transform atc1 = transform.parent.parent;
-			string airplaneName1 = atc1.Find ("MyAirplane").Find ("Canvas").Find ("textAirplaneModel").GetComponent<Text> ().text;
+			string airplaneName1 = atc1.Find (Constants.MYAIRPLANE).Find (Constants.CANVAS).Find (Constants.TEXTAIRPLANEMODEL).GetComponent<Text> ().text;
 
 			Transform atc2 = other.transform.parent.parent;
-			string airplaneName2 = atc2.Find ("MyAirplane").Find ("Canvas").Find ("textAirplaneModel").GetComponent<Text> ().text;
+			string airplaneName2 = atc2.Find (Constants.MYAIRPLANE).Find (Constants.CANVAS).Find (Constants.TEXTAIRPLANEMODEL).GetComponent<Text> ().text;
 
 			// Collision
 			GameMaster.gm.showWarningPanel ();
 			GameMaster.gm.addInfoToWarningPanel (airplaneName1,  airplaneName2, timeForCollision);
+		}
+	}
+
+	void OnTriggerExit(Collider other) {
+		if (other.gameObject.name == this.gameObject.name) {
+			GameMaster.gm.hideWarningPanel ();
 		}
 	}
 }

@@ -36,6 +36,11 @@ public class GameMaster : MonoBehaviour {
 		UIController.UICtrl.showWarningPanel ();
 	}
 
+	// Warning Panel Info
+	public void hideWarningPanel() {
+		UIController.UICtrl.hideWarningPanel ();
+	}
+
 	public void addInfoToWarningPanel (string airplaneModelName1, string airplaneModelName2, float timeForCollision) {
 		UIController.UICtrl.eraseInfoInWarningPanel ();
 		string warningInfo = "Collision of " + airplaneModelName1 + " and " + airplaneModelName2 + " in " + timeForCollision + " seconds!";
@@ -66,12 +71,12 @@ public class GameMaster : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		airplanesMovement = new ArrayList ();
-		GameObject[] airplaneObjects = GameObject.FindGameObjectsWithTag("Airplane");
+		GameObject[] airplaneObjects = GameObject.FindGameObjectsWithTag(Constants.AIRPLANETAG);
 		for (int i = 0; i < airplaneObjects.Length; ++i) {
 			airplanesMovement.Add (airplaneObjects[i].GetComponent<AircraftMovement>());
 		}
 
-		if (airplanesMovement.Count != 0) {
+		//if (airplanesMovement.Count != 0) {
 
 
 			int numberAirplanesArrived = getNumberAirplanesArrived ();
@@ -85,7 +90,7 @@ public class GameMaster : MonoBehaviour {
 
 			// Check for collisions
 			destroyCloseAirplanes ();
-		}
+		//}
 	}
 
 	public void destroyCloseAirplanes() {
@@ -111,7 +116,7 @@ public class GameMaster : MonoBehaviour {
 						VisualizationDataController.vdCtrl.totalCollisions += 2;
 					}
 				}
-			} 
+			}
 		}
 	}
 }

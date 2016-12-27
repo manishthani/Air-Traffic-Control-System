@@ -9,7 +9,7 @@ public class AudioController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (audioCtrl == null) {
-			audioCtrl = GameObject.FindGameObjectWithTag ("AudioCtrl").GetComponent<AudioController> ();
+			audioCtrl = GameObject.FindGameObjectWithTag (Constants.AUDIOCTRL).GetComponent<AudioController> ();
 		}
 		sourceShortConflictAlarm = GetComponent<AudioSource> ();
 

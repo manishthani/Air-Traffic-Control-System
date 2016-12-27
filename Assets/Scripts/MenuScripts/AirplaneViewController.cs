@@ -38,9 +38,9 @@ public class AirplaneViewController : MonoBehaviour {
 		Transform parent = button.parent;
 
 		// Get data from row
-		int id = int.Parse(parent.Find ("Id").GetComponent<Text> ().text);
-		string modelName = parent.Find ("ModelName").GetComponent<Text>().text;
-		string waypoints = parent.Find ("Waypoints").GetComponent<Text> ().text;
+		int id = int.Parse(parent.Find (Constants.ID).GetComponent<Text> ().text);
+		string modelName = parent.Find (Constants.MODELNAME).GetComponent<Text>().text;
+		string waypoints = parent.Find (Constants.WAYPOINTS).GetComponent<Text> ().text;
 
 		// Send this data to the corresponding view as it is encharged of handling it
 		insertAirplanePanel.GetComponent<InsertAirplaneView> ().fillAirplaneData (id, modelName, waypoints);

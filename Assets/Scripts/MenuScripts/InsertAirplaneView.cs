@@ -21,6 +21,9 @@ public class InsertAirplaneView : MonoBehaviour {
 	// Delete rows elements
 	public GameObject deletePanel;
 
+	// Data Validation
+	public GameObject modelNameValidationText;
+	public GameObject waypointsValidationText;
 
 	// UI Scripts 
 	private PopulateTables populateCoordinates; 
@@ -29,6 +32,7 @@ public class InsertAirplaneView : MonoBehaviour {
 	private int id = -1;
 	private string modelName;
 	private int childCount;
+
 	void Start() {
 		childCount = tableWaypoints.transform.childCount;
 		populateCoordinates = new PopulateTables();
@@ -41,27 +45,81 @@ public class InsertAirplaneView : MonoBehaviour {
 		}
 	}
 
+	private bool isAirplaneModelNameInputEmpty (string name) {
+		if (name == string.Empty) {
+			modelNameValidationText.SetActive (true);
+			modelNameValidationText.GetComponent<Text> ().text = "Model name cannot be empty";
+			return true;
+		}
+		return false;
+	}
+
+	private bool isAirplaneWaypointsInputEmpty (string x, string y, string z) {
+		if (x == string.Empty|| y == string.Empty || z == string.Empty) {
+			waypointsValidationText.SetActive (true);
+			waypointsValidationText.GetComponent<Text> ().text = "Waypoint coordinates cannot be empty";
+			return true;
+		}
+		return false;
+	}
+
+	private bool isAirplaneWaypointsOutOfRange (float x, float y, float z) {
+		if ((x < 0 || x > 500.0f ) || (y < 0 || y > 500.0f)|| (z < 1000 || z > 25000)) {
+			waypointsValidationText.SetActive (true);
+			waypointsValidationText.GetComponent<Text> ().text = "X and Y must range from 0.0 to 500.0 miles and Z from 1000 to 25000 feet";
+			return true;
+		}
+		return false;
+	}
+
+	private bool isAirplaneWaypointsTableEmpty () {
+		if (tableWaypoints.transform.childCount - 1 < 2) {
+			waypointsValidationText.SetActive (true);
+			waypointsValidationText.GetComponent<Text> ().text = "Two or more waypoints should be added in the table";
+			return true;
+		}
+		return false;
+	}
+
 	public void addAirplaneWaypointsEvent() {
-		float waypointX = float.Parse(inputXWaypoints.GetComponent<InputField> ().text);
-		float waypointY = float.Parse(inputYWaypoints.GetComponent<InputField> ().text);
-		float waypointZ = float.Parse(inputZWaypoints.GetComponent<InputField> ().text);
+		string x = inputXWaypoints.GetComponent<InputField> ().text;
+		string y = inputYWaypoints.GetComponent<InputField> ().text;
+		string z = inputZWaypoints.GetComponent<InputField> ().text;
 
-		Debug.Log (waypointX.ToString() + " , " + waypointY.ToString() + " , " + waypointZ.ToString() );
+		Debug.Log (x + " , " + y + " , " + z);
+		if (!isAirplaneWaypointsInputEmpty (x, y, z)) {
+			float waypointX = float.Parse(x);
+			float waypointY = float.Parse(y);
+			float waypointZ = float.Parse(z);
+			if (!isAirplaneWaypointsOutOfRange (waypointX, waypointY, waypointZ)) {
+				waypointsValidationText.SetActive (false);
 
-		//Clear Inputs
-		inputXWaypoints.GetComponent<InputField> ().text = string.Empty;
-		inputYWaypoints.GetComponent<InputField> ().text = string.Empty;
-		inputZWaypoints.GetComponent<InputField> ().text = string.Empty;
+				//Clear Inputs
+				inputXWaypoints.GetComponent<InputField> ().text = string.Empty;
+				inputYWaypoints.GetComponent<InputField> ().text = string.Empty;
+				inputZWaypoints.GetComponent<InputField> ().text = string.Empty;
 
-		// Add waypoint
-		addWaypointsWithCoordinates (waypointX.ToString(), waypointY.ToString(), waypointZ.ToString());
+				// Add waypoint
+				addWaypointsWithCoordinates (waypointX.ToString (), waypointY.ToString (), waypointZ.ToString ());
+			}
+		}
 	}
 
 	public void insertAirplaneEvent() {
-		// Read modelName from inputs
-		modelName = inputModelName.GetComponent<InputField>().text;
-		AirplaneViewController.airplaneViewCtrl.insertAirplanes (id, modelName, getCoordinatesFromRowViews ());
-		clearAllFields ();
+		modelName = inputModelName.GetComponent<InputField> ().text;
+		bool emptyName = !isAirplaneModelNameInputEmpty (modelName);
+		bool tableEmpty = !isAirplaneWaypointsTableEmpty ();
+		if (emptyName && tableEmpty) {
+			//if (!isAirplaneWaypointsTableEmpty ()) {
+				waypointsValidationText.SetActive (false);
+				modelNameValidationText.SetActive (false);
+				// Read modelName from inputs
+				AirplaneViewController.airplaneViewCtrl.insertAirplanes (id, modelName, getCoordinatesFromRowViews ());
+				clearAllFields ();
+				transform.parent.parent.GetComponent<MainViewController> ().ShowAirplanesPanel ();
+			//}
+		}
+
 	}
 
 
@@ -107,6 +165,8 @@ public class InsertAirplaneView : MonoBehaviour {
 	public void clearAllFields () {
 		//Clear Inputs
 		id = -1;
+		waypointsValidationText.SetActive (false);
+		modelNameValidationText.SetActive (false);
 		// Model name
 		inputModelName.GetComponent<InputField>().text = string.Empty;
 
@@ -124,7 +184,7 @@ public class InsertAirplaneView : MonoBehaviour {
 		bool enabledDeletePanel = false;
 		for (int i = 0; i < tableWaypoints.transform.childCount; ++i) {
 			Transform row = tableWaypoints.transform.GetChild (i);
-			if (row.Find ("Checkbox").GetComponent<Toggle> ().isOn) {
+			if (row.Find (Constants.CHECKBOX).GetComponent<Toggle> ().isOn) {
 				enabledDeletePanel = true;
 				break;
 			}
@@ -135,19 +195,20 @@ public class InsertAirplaneView : MonoBehaviour {
 	public void deleteButtonInDeletePanelEvent() {
 		for (int i = 0; i < tableWaypoints.transform.childCount; ++i) {
 			Transform row = tableWaypoints.transform.GetChild (i);
-			Toggle checkbox = row.Find ("Checkbox").GetComponent<Toggle> ();
+			Toggle checkbox = row.Find (Constants.CHECKBOX).GetComponent<Toggle> ();
 
 			if (checkbox.isOn) {
 				Destroy (row.gameObject);	
 			}
 		}
 		deletePanel.SetActive (false);
+
 	}
 		
 
 	public void cancelButtonInDeletePanelEvent() {
 		for (int i = 0; i < tableWaypoints.transform.childCount; ++i) {
-			Toggle checkbox = tableWaypoints.transform.GetChild (i).Find ("Checkbox").GetComponent<Toggle> ();
+			Toggle checkbox = tableWaypoints.transform.GetChild (i).Find (Constants.CHECKBOX).GetComponent<Toggle> ();
 			if (checkbox.isOn) {
 				checkbox.isOn = false;
 			}

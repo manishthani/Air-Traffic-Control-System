@@ -9,10 +9,12 @@ public class  VisualizationDataController : MonoBehaviour {
 	private DateTime startTime;
 	private TimeSpan totalTime; 
 
-	public int totalConflicts = 0;
+	public int totalShortConflicts = 0;
+	public int totalLongConflicts = 0;
 	public int totalCollisions = 0;
 	public int totalAirplanesArrived = 0;
 	public int totalAirplanesEnRoute = 0;
+
 
 
 	public void setStartTime() {
@@ -41,14 +43,12 @@ public class  VisualizationDataController : MonoBehaviour {
 		if (vdCtrl == null) {
 			vdCtrl = new VisualizationDataController ();
 		}
-
-
 	}
 
 	// TODO: Why is this in Update Function?
 	void Update() {
-		if (GameMaster.gm != null) {
+		/*if (GameMaster.gm != null) {
 			totalAirplanesArrived = GameMaster.gm.totalAirplanes();
-		}
+		}*/
 	}
 }

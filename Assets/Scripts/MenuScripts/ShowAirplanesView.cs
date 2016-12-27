@@ -26,7 +26,7 @@ public class ShowAirplanesView : MonoBehaviour {
 	public void removeAirplanes () {
 		for (int i = 0; i < tableAirplanes.transform.childCount; ++i) {
 			// Only removes instances, not prefab
-			if (tableAirplanes.transform.GetChild(i).name.Contains ("(Clone)")) {
+			if (tableAirplanes.transform.GetChild(i).name.Contains (Constants.CLONE)) {
 				Destroy (tableAirplanes.transform.GetChild (i).gameObject);
 			}
 		}
@@ -51,11 +51,10 @@ public class ShowAirplanesView : MonoBehaviour {
 	}
 
 	public void checkboxDeleteEvent () {
-		Debug.Log ("Checkbox event");
 		bool enabledDeletePanel = false;
 		for (int i = 0; i < tableAirplanes.transform.childCount; ++i) {
 			Transform row = tableAirplanes.transform.GetChild (i);
-			if (row.Find ("Checkbox").GetComponent<Toggle> ().isOn) {
+			if (row.Find (Constants.CHECKBOX).GetComponent<Toggle> ().isOn) {
 				enabledDeletePanel = true;
 				break;
 			}
@@ -66,7 +65,7 @@ public class ShowAirplanesView : MonoBehaviour {
 
 	public void cancelButtonInDeletePanelEvent() {
 		for (int i = 0; i < tableAirplanes.transform.childCount; ++i) {
-			Toggle checkbox = tableAirplanes.transform.GetChild (i).Find ("Checkbox").GetComponent<Toggle> ();
+			Toggle checkbox = tableAirplanes.transform.GetChild (i).Find (Constants.CHECKBOX).GetComponent<Toggle> ();
 			if (checkbox.isOn) {
 				checkbox.isOn = false;
 			}
@@ -78,15 +77,15 @@ public class ShowAirplanesView : MonoBehaviour {
 	public void deleteButtonInDeletePanelEvent() {
 		for (int i = 0; i < tableAirplanes.transform.childCount; ++i) {
 			Transform row = tableAirplanes.transform.GetChild (i);
-			Toggle checkbox = row.Find ("Checkbox").GetComponent<Toggle> ();
+			Toggle checkbox = row.Find (Constants.CHECKBOX).GetComponent<Toggle> ();
 
 			if (checkbox.isOn) {
-				int id = int.Parse(row.Find ("Id").GetComponent<Text> ().text);
+				int id = int.Parse(row.Find (Constants.ID).GetComponent<Text> ().text);
 				deleteAirplane (row, id);	
 			}
 		}
 		deletePanel.SetActive (false);
-
+		addAirplaneButton.SetActive (true);
 		// TODO: Change it so it only asks to controller only the airplaneData so it can refresh it.
 		refreshAirplanesTable ();
 	}

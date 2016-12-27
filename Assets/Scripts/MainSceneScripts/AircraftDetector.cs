@@ -13,7 +13,7 @@ public class AircraftDetector: MonoBehaviour {
 	void Awake() {
 		myAirplane = transform.parent.parent.gameObject;
 		myAirplaneRenderer = myAirplane.GetComponent<Renderer> ();
-		myAirplaneModelName = myAirplane.transform.Find ("Canvas").Find ("textAirplaneModel").GetComponent<Text> ().text;
+		myAirplaneModelName = myAirplane.transform.Find (Constants.CANVAS).Find (Constants.TEXTAIRPLANEMODEL).GetComponent<Text> ().text;
 	}
 
 	void Start() {
@@ -26,12 +26,14 @@ public class AircraftDetector: MonoBehaviour {
 		} else if (gameObject.name == Constants.SHORTRANGEDETECTOR) {
 			collider.radius = DataController.dataCtrl.shortAreaDetectorRadius;
 		}
+		VisualizationDataController.vdCtrl.totalShortConflicts = 0;
+		VisualizationDataController.vdCtrl.totalLongConflicts = 0;
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.gameObject.tag == "Airplane" && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
+		if (other.gameObject.tag == Constants.AIRPLANETAG && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
 			Color color = new Color ();
-			string otherName = other.transform.Find ("Canvas").Find ("textAirplaneModel").GetComponent<Text> ().text;
+			string otherName = other.transform.Find (Constants.CANVAS).Find (Constants.TEXTAIRPLANEMODEL).GetComponent<Text> ().text;
 			if (gameObject.name == Constants.SHORTRANGEDETECTOR) {
 				longArea = false;
 				color = Color.red;
@@ -39,21 +41,23 @@ public class AircraftDetector: MonoBehaviour {
 				GameMaster.gm.playAlert ();
 				GameMaster.gm.addInfoToConflictPanel ("Short Conflict between: " + myAirplaneModelName + " AND " + otherName);
 
+				VisualizationDataController.vdCtrl.totalShortConflicts++;
+
+
 			}
 			else if (gameObject.name == Constants.LONGRANGEDETECTOR && longArea) {
 				color = new Color (1, 0.60f, 0, 1);
-				GameMaster.gm.addInfoToConflictPanel ("Long Conflict between: " + myAirplaneModelName + " AND " + otherName);
+				//GameMaster.gm.addInfoToConflictPanel ("Long Conflict between: " + myAirplaneModelName + " AND " + otherName);
+				VisualizationDataController.vdCtrl.totalLongConflicts++;
 			}
 
 			setCollidedAirplaneColor (color,myAirplaneRenderer,other.gameObject.GetComponent<Renderer> ());
 
-			// Update Visualization Data Controlller
-			VisualizationDataController.vdCtrl.totalConflicts++;
 		}
 	}
 		
 	void OnTriggerExit(Collider other) {
-		if (other.gameObject.tag == "Airplane" && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
+		if (other.gameObject.tag == Constants.AIRPLANETAG && other.gameObject.GetInstanceID() != myAirplane.GetInstanceID()) {
 			Color color = new Color ();
 			if (gameObject.name == Constants.SHORTRANGEDETECTOR) {
 				longArea = true;

@@ -24,11 +24,11 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 	// TODO: (0,0) is the left lower corner and (500,500) is the right higher corner
 	public void drawAirplane(int id, string waypoints) {
 		if (airplaneTrajectory == null) {
-			airplaneTrajectory = Resources.Load ("AirplaneTrajectory") as GameObject;
+			airplaneTrajectory = Resources.Load (Constants.AIRPLANETRAJECTORY) as GameObject;
 			airplaneTrajectoryRect = airplaneTrajectory.GetComponent<RectTransform> ();
 		}
 		if (waypointIcon == null) {
-			waypointIcon = Resources.Load ("WaypointIcon") as GameObject;
+			waypointIcon = Resources.Load (Constants.WAYPOINTICON) as GameObject;
 		}
 			
 		if (waypoints != string.Empty) {
@@ -36,7 +36,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 			// Normalize waypoints to range 0 - 500.0f, then divide into 2 
 			ArrayList waypointsArray = Utilities.parseToVector3 (waypoints);
 			for (int i = 0; i < waypointsArray.Count; i++) {
-				waypointsArray [i] = new Vector3 (((Vector3)waypointsArray [i]).x * (width / 500.0f) ,((Vector3)waypointsArray [i]).y * (height / 500.0f),  1.0f );
+				waypointsArray [i] = new Vector3 (((Vector3)waypointsArray [i]).x * (width / 500.0f) - (width/2.0f) ,((Vector3)waypointsArray [i]).y * (height / 500.0f) - (height/2.0f),  1.0f );
 			}
 
 			//Draw airplane icon
@@ -59,7 +59,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 
 			instanceTrajectory.GetComponent<RectTransform> ().localPosition = Vector3.zero;
 
-			Transform instanceAirplane = instanceTrajectory.transform.Find ("AirplaneIcon");
+			Transform instanceAirplane = instanceTrajectory.transform.Find (Constants.AIRPLANEICON);
 			instanceAirplane.GetComponent<RectTransform> ().localPosition = (Vector3)waypointsArray [0];
 
 			waypointsInstances.Add (new Vector2 (instanceAirplane.transform.localPosition.x + (width / 2), instanceAirplane.transform.localPosition.y + (height / 2.0f)));

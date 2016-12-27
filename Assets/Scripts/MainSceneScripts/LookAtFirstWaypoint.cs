@@ -11,7 +11,7 @@ public class LookAtFirstWaypoint : MonoBehaviour {
 	public void Start () {
 		childrenTranformCopy = new ArrayList ();
 
-		airplane = transform.parent.Find ("MyAirplane");
+		airplane = transform.parent.Find (Constants.MYAIRPLANE);
 		scriptAircraftMovement = airplane.GetComponent<AircraftMovement> ();
 		transform.LookAt (scriptAircraftMovement.getCurrentTarget ());
 

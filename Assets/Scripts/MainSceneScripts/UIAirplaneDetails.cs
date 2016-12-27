@@ -14,9 +14,9 @@ public class UIAirplaneDetails : MonoBehaviour {
 	void Update () {
 		if (airplaneScript != null) {
 			foreach (Transform t in transform) {
-				if (t.name == "textAltitude") {
-					t.gameObject.GetComponent<Text> ().text = "Height: " + airplane.transform.position.y;
-				} else if (t.name == "textSpeed") {
+				if (t.name == Constants.TEXTALTITUDE) {
+					t.gameObject.GetComponent<Text> ().text = "Height: " + (int)(airplane.transform.position.y * Constants.FEETTOMILE) + " feets";
+				} else if (t.name == Constants.TEXTSPEED) {
 					t.gameObject.GetComponent<Text> ().text = "Speed: " + airplaneScript.knots + " knots";
 				}
 			} 
