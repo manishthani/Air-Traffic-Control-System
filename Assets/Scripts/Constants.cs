@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class Constants {
 	public static float FEETTOMILE = 5280/10;
-
+	public static float TERRAINSIZE = 200.0f;
 	public static string ID = "Id";
 	public static string MODELNAME = "ModelName";
 	public static string WAYPOINTS = "Waypoints";

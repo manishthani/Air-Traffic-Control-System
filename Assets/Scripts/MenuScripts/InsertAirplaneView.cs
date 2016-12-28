@@ -64,9 +64,9 @@ public class InsertAirplaneView : MonoBehaviour {
 	}
 
 	private bool isAirplaneWaypointsOutOfRange (float x, float y, float z) {
-		if ((x < 0 || x > 500.0f ) || (y < 0 || y > 500.0f)|| (z < 1000 || z > 25000)) {
+		if ((x < 0 || x > 200.0f ) || (y < 0 || y > 200.0f)|| (z < 1000 || z > 25000)) {
 			waypointsValidationText.SetActive (true);
-			waypointsValidationText.GetComponent<Text> ().text = "X and Y must range from 0.0 to 500.0 miles and Z from 1000 to 25000 feet";
+			waypointsValidationText.GetComponent<Text> ().text = "X and Y must range from 0.0 to 200.0 miles and Z from 1000 to 25000 feet";
 			return true;
 		}
 		return false;

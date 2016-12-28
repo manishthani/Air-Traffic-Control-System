@@ -66,8 +66,8 @@ public class UIController : MonoBehaviour{
 
 	public void updateAirplaneInMiniatureImage (string id, Vector3 position, Color color, Vector2 waypoint) {
 		RectTransform rect = airplaneMiniatureImage.GetComponent<RectTransform> ();
-		Vector2 normalizedVector = new Vector2 ((((position.x/500.0f) - 0.5f) * rect.rect.size.x * 0.95f), (((position.z/500.0f) - 0.5f) * rect.rect.size.y) * 0.95f);
-		Vector2 normalizedWaypoint = new Vector2 ((((waypoint.x/500.0f) - 0.5f) * rect.rect.size.x * 0.95f), (((waypoint.y/500.0f) - 0.5f) * rect.rect.size.y) * 0.95f);
+		Vector2 normalizedVector = new Vector2 ((((position.x/Constants.TERRAINSIZE) - 0.5f) * rect.rect.size.x * 0.95f), (((position.z/Constants.TERRAINSIZE) - 0.5f) * rect.rect.size.y) * 0.95f);
+		Vector2 normalizedWaypoint = new Vector2 ((((waypoint.x/Constants.TERRAINSIZE) - 0.5f) * rect.rect.size.x * 0.95f), (((waypoint.y/Constants.TERRAINSIZE) - 0.5f) * rect.rect.size.y) * 0.95f);
 
 		GameObject airplaneInstance = airplanesHash [id] as GameObject;
 
