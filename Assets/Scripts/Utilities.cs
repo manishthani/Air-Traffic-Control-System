@@ -17,7 +17,6 @@ public class Utilities {
 
 	public static ArrayList parseToVector3 (string vector) {
 		ArrayList array = new ArrayList ();
-
 		string[] positions = vector.Split(';');
 
 		for (int i = 0; i < positions.Length;  ++i) {

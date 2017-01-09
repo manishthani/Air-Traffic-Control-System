@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class VisualizatioDataViewController : MonoBehaviour {
+public class ResultsView : MonoBehaviour {
 
 	public GameObject visualizationTimePanel;
 	public GameObject totalNumberConflictsPanel;
@@ -12,6 +12,10 @@ public class VisualizatioDataViewController : MonoBehaviour {
 
 
 	void Start () {
+		showResults ();
+	}
+	
+	public void showResults() {
 		Text visualizationTimeText = visualizationTimePanel.transform.Find (Constants.VISUALIZATIONTIMEVALUE).GetComponent<Text> ();
 		Text totalNumberConflictsText = totalNumberConflictsPanel.transform.Find (Constants.TOTALNUMBERCONFLICTSVALUE).GetComponent<Text> ();
 		Text totalNumberCollisionText = totalNumberCollisionPanel.transform.Find (Constants.TOTALNUMBERCOLLISIONVALUE).GetComponent<Text> ();
@@ -25,9 +29,8 @@ public class VisualizatioDataViewController : MonoBehaviour {
 		int longConflicts = VisualizationDataController.vdCtrl.totalLongConflicts;
 		totalNumberConflictsText.text = "Long Conflicts: " + longConflicts + " | Short Conflicts: " + shortConflicts + " | Total: " + (shortConflicts + longConflicts);
 		totalNumberCollisionText.text = VisualizationDataController.vdCtrl.totalCollisions.ToString ();
-	
 	}
-	
+
 	public void loadMenuScene() {
 		LoadScenes.loadMenuScene ();
 	}

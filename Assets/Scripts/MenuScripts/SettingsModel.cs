@@ -15,4 +15,5 @@ public class SettingsModel {
 		this.longRadius = longRadius;
 		this.speed = speed;
 	} 
+	public SettingsModel (){}
 }

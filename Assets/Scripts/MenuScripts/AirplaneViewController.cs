@@ -13,7 +13,7 @@ public class AirplaneViewController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		airplaneViewCtrl = new AirplaneViewController ();
-		AirplaneController.airplaneCtrl = new AirplaneController ();
+		AirplaneDataController.airplaneDataCtrl = new AirplaneDataController ();
 		showAirplanesPanel.GetComponent<ShowAirplanesView> ().refreshAirplanesTable ();
 		showAirplanesPanel.GetComponent<ShowAirplanesView> ();
 	}
@@ -21,15 +21,15 @@ public class AirplaneViewController : MonoBehaviour {
 	public void insertAirplanes(int id, string modelName, string waypoints) {
 		if (id == -1 ) {
 			Debug.Log ("Adding!");
-			AirplaneController.airplaneCtrl.insertAirplane (modelName, waypoints);
+			AirplaneDataController.airplaneDataCtrl.insertAirplane (modelName, waypoints);
 		} else {
 			Debug.Log ("Updating!");
-			AirplaneController.airplaneCtrl.updateAirplane (id, modelName, waypoints);
+			AirplaneDataController.airplaneDataCtrl.updateAirplane (id, modelName, waypoints);
 		}
 	}
 
 	public void updateAirplane(int id, string modelName, string waypoints) {
-		AirplaneController.airplaneCtrl.updateAirplane (id, modelName, waypoints);
+		AirplaneDataController.airplaneDataCtrl.updateAirplane (id, modelName, waypoints);
 	}
 
 	public void fillAirplaneData() {
@@ -54,7 +54,7 @@ public class AirplaneViewController : MonoBehaviour {
 	public ArrayList getAirplanes () {
 		// TODO: dataCtrl can be updated with other function calls, do that
 		// Communicates with the showAirplanesView and invokes a function to refresh the table by inserting the new airplane details
-		ArrayList airplanes = AirplaneController.airplaneCtrl.getAirplanes();
+		ArrayList airplanes = AirplaneDataController.airplaneDataCtrl.getAirplanes();
 		DataController.dataCtrl.airplanes = airplanes;
 		return airplanes;
 	}

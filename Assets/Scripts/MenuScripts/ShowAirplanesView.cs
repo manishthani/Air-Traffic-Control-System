@@ -17,6 +17,7 @@ public class ShowAirplanesView : MonoBehaviour {
 
 	// UI Scripts 
 	private PopulateTables populationAirplanes; 
+
 	//Trajectories panel
 	public GameObject trajectories;
 
@@ -92,7 +93,7 @@ public class ShowAirplanesView : MonoBehaviour {
 
 	// Deletes view and also in the system
 	public void deleteAirplane(Transform parent, int id) {
-		AirplaneController.airplaneCtrl.deleteAirplaneWithId (id);
+		AirplaneDataController.airplaneDataCtrl.deleteAirplane(id);
 		Destroy (parent.gameObject);
 	}
 

@@ -7,7 +7,7 @@ public class SettingsViewController : MonoBehaviour {
 	void Awake () {
 		if (settingsViewCtrl == null) {
 			settingsViewCtrl = new SettingsViewController ();
-			SettingsController.settingsCtrl = new SettingsController ();
+			SettingsDataController.settingsDataCtrl = new SettingsDataController ();
 
 		}
 	}
@@ -19,45 +19,45 @@ public class SettingsViewController : MonoBehaviour {
 
 	// Getters
 	public float getCurrentDistance() {
-		return SettingsController.settingsCtrl.maxFutureDistance;
+		return SettingsDataController.settingsDataCtrl.settings.maxFutureDistance;
 	}
 
 	public float getLongAreaDetectorRadius() {
-		return SettingsController.settingsCtrl.longRadius;
+		return SettingsDataController.settingsDataCtrl.settings.longRadius;
 	}
 
 	public float getShortAreaDetectorRadius() {
-		return SettingsController.settingsCtrl.shortRadius;
+		return SettingsDataController.settingsDataCtrl.settings.shortRadius;
 	}
 
 	public float getAirplaneSpeed() {
-		return SettingsController.settingsCtrl.speed;
+		return SettingsDataController.settingsDataCtrl.settings.speed;
 	}
 
 
 	// Setters 
 	public void setCurrentDistance(float currentDistance) {
-		SettingsController.settingsCtrl.maxFutureDistance = Mathf.FloorToInt( currentDistance);
+		SettingsDataController.settingsDataCtrl.settings.maxFutureDistance = Mathf.FloorToInt( currentDistance);
 		DataController.dataCtrl.currentDistance = currentDistance;
 	}
 
 	public void setLongAreaDetectorRadius(float longAreaDetectorRadius) {
-		SettingsController.settingsCtrl.longRadius = Mathf.FloorToInt(longAreaDetectorRadius);
+		SettingsDataController.settingsDataCtrl.settings.longRadius = Mathf.FloorToInt(longAreaDetectorRadius);
 		DataController.dataCtrl.longAreaDetectorRadius = longAreaDetectorRadius;
 	}
 
 	public void setShortAreaDetectorRadius(float shortAreaDetectorRadius) {
-		SettingsController.settingsCtrl.shortRadius = Mathf.FloorToInt(shortAreaDetectorRadius);
+		SettingsDataController.settingsDataCtrl.settings.shortRadius = Mathf.FloorToInt(shortAreaDetectorRadius);
 		DataController.dataCtrl.shortAreaDetectorRadius = shortAreaDetectorRadius;
 	}
 
 	public void setAirplaneSpeed(float airplaneSpeed) {
-		SettingsController.settingsCtrl.speed = Mathf.FloorToInt(airplaneSpeed);
+		SettingsDataController.settingsDataCtrl.settings.speed = Mathf.FloorToInt(airplaneSpeed);
 		DataController.dataCtrl.airplaneSpeed = airplaneSpeed;
 	}
 
 	public void acceptButtonEvent() {
-		SettingsController.settingsCtrl.saveSettings ();
+		SettingsDataController.settingsDataCtrl.saveSettings ();
 	}
 
 }

@@ -11,7 +11,6 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 	private GameObject waypointIcon;
 	private RectTransform airplaneTrajectoryRect;
 
-	// Use this for initialization
 	void Awake () {
 		height = transform.GetComponent<RectTransform> ().rect.height;
 		width = transform.GetComponent<RectTransform> ().rect.width;
@@ -19,9 +18,6 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 		refresh ();
 	}
 
-	// Update is called once per frame
-
-	// TODO: (0,0) is the left lower corner and (500,500) is the right higher corner
 	public void drawAirplane(int id, string waypoints) {
 		if (airplaneTrajectory == null) {
 			airplaneTrajectory = Resources.Load (Constants.AIRPLANETRAJECTORY) as GameObject;
@@ -44,7 +40,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 			instanceTrajectory.name = id.ToString ();
 			instanceTrajectory.transform.SetParent (transform);
 
-			// TODO: Make this look cleaner!
+
 			RectTransform rect = instanceTrajectory.GetComponent<RectTransform> ();
 			rect.offsetMax = airplaneTrajectoryRect.offsetMax;
 			rect.offsetMin = airplaneTrajectoryRect.offsetMin;
@@ -86,7 +82,7 @@ public class AirplaneTrajectoriesView : MonoBehaviour {
 	public void refresh () {
 		clean ();
 		// Draw airplanes again
-		ArrayList airplanes = AirplaneController.airplaneCtrl.getAirplanes ();
+		ArrayList airplanes = AirplaneDataController.airplaneDataCtrl.getAirplanes ();
 		foreach (AirplaneModel airplane in airplanes) {
 			drawAirplane (airplane.id, airplane.waypoints);
 		}
